@@ -4,23 +4,23 @@ import java.util.Date;
 
 public class CarDetails {
 
-        int numPlate;
-        String model;
-        String colour;
-        Date dateAndTime = new Date();
+    String numPlate;
+    String model;
+    String colour;
+    Date dateAndTime = new Date();
 
 
-    public CarDetails(int numPlate, String model, String colour) {
+    public CarDetails(String numPlate, String model, String colour) {
         this.numPlate = numPlate;
         this.model = model;
         this.colour = colour;
     }
 
-    public int getNumPlate() {
+    public String getNumPlate() {
         return numPlate;
     }
 
-    public void setNumPlate(int numPlate) {
+    public void setNumPlate(String numPlate) {
         this.numPlate = numPlate;
     }
 
