@@ -32,6 +32,7 @@ public class CarParkingTest {
             boolean car2 = carParkingSystem.parkTheCar("MH-12-7483", "Honda", "silver");
 
             boolean searchDetail = carParkingSystem.unParkTheCar("MH-12-8382");
+            carParkingSystem.getParkingDetail();
             Assert.assertEquals(true, searchDetail);
         } catch (CarSystemException e) {
             e.printStackTrace();
@@ -59,9 +60,10 @@ public class CarParkingTest {
 
         try {
             CarParkingSystem carParkingSystem = new CarParkingSystem();
-            for (int i = 0; i < 101; i++) {
+            for (int i = 1; i <=102; i++) {
                 boolean car = carParkingSystem.parkTheCar(i + "MH-12-2343", i + "Maruti", i + "red");
             }
+            carParkingSystem.getParkingDetail();
         } catch (CarSystemException e) {
             Assert.assertEquals(CarSystemException.ExceptionType.PARKING_SLOT_FULL, e.type);
         }

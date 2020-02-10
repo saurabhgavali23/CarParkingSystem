@@ -4,29 +4,24 @@ import java.util.*;
 
 public class CarParkingSystem {
 
-    int slotNo = 1;
     int SLOT_SIZE = 100;
     Map<Integer, CarDetails> carPark = new HashMap<>();
+    CarDetails carDetails = new CarDetails();
 
     public boolean parkTheCar(String numPlate, String model, String color) throws CarSystemException {
 
-        if(SLOT_SIZE>=carPark.size()) {
+        if (SLOT_SIZE >= carPark.size()) {
 
-            carPark.put(this.getSlotNum(), new CarDetails(numPlate, model, color));
+            carPark.put(carDetails.getSlotNum(), new CarDetails(numPlate, model, color));
 
             return true;
         }
-
-        throw new CarSystemException(CarSystemException.ExceptionType.PARKING_SLOT_FULL,"PARKING_SLOT_FULL");
+        throw new CarSystemException(CarSystemException.ExceptionType.PARKING_SLOT_FULL, "PARKING_SLOT_FULL");
     }
 
     public void getParkingDetail() {
 
         carPark.forEach((k, v) -> System.out.println("Slot No: " + k + " = " + v));
-    }
-
-    public int getSlotNum() {
-        return slotNo++;
     }
 
     public boolean unParkTheCar(String numPlate) throws CarSystemException {

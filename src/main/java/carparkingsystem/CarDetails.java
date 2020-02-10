@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class CarDetails {
 
+    int slotNo;
     private String numPlate;
     private String model;
     private String colour;
@@ -16,28 +17,24 @@ public class CarDetails {
         this.colour = colour;
     }
 
-    public String getNumPlate() {
-        return numPlate;
+    public CarDetails() {
+        this.slotNo = 1;
     }
 
-    public void setNumPlate(String numPlate) {
-        this.numPlate = numPlate;
+    public int getSlotNum(){
+        return slotNo++;
+    }
+
+    public String getNumPlate() {
+        return numPlate;
     }
 
     public String getModel() {
         return model;
     }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
-
     public String getColour() {
         return colour;
-    }
-
-    public void setColour(String colour) {
-        this.colour = colour;
     }
 
     public Date getDateAndTime() {
