@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class CarDetails {
 
-    String numPlate;
-    String model;
-    String colour;
-    Date dateAndTime = new Date();
+    private String numPlate;
+    private String model;
+    private String colour;
+    private Date dateAndTime = new Date();
 
 
     public CarDetails(String numPlate, String model, String colour) {

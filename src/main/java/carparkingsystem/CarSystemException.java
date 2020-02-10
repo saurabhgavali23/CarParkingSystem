@@ -5,7 +5,7 @@ public class CarSystemException extends Exception {
     public ExceptionType type;
 
     public enum ExceptionType {
-        DATA_NOT_FOUND;
+        DATA_NOT_FOUND, PARKING_SLOT_FULL;
     }
 
     public CarSystemException(ExceptionType type, String message) {

@@ -5,13 +5,19 @@ import java.util.*;
 public class CarParkingSystem {
 
     int slotNo = 1;
+    int SLOT_SIZE = 100;
     Map<Integer, CarDetails> carPark = new HashMap<>();
 
-    public boolean parkTheCar(String numPlate, String model, String color) {
+    public boolean parkTheCar(String numPlate, String model, String color) throws CarSystemException {
 
-        carPark.put(this.getSlotNum(), new CarDetails(numPlate, model, color));
+        if(SLOT_SIZE>=carPark.size()) {
 
-        return true;
+            carPark.put(this.getSlotNum(), new CarDetails(numPlate, model, color));
+
+            return true;
+        }
+
+        throw new CarSystemException(CarSystemException.ExceptionType.PARKING_SLOT_FULL,"PARKING_SLOT_FULL");
     }
 
     public void getParkingDetail() {

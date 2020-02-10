@@ -11,9 +11,14 @@ public class CarParkingTest {
     @Test
     public void whenGivenCarDetails_IfItIsPark_ItShouldReturnTrue() {
 
-        CarParkingSystem carParkingSystem = new CarParkingSystem();
-        boolean car = carParkingSystem.parkTheCar("MH-12-2343", "Maruti", "red");
-        Assert.assertEquals(car, true);
+        try {
+            CarParkingSystem carParkingSystem = new CarParkingSystem();
+            boolean car = carParkingSystem.parkTheCar("MH-12-2343", "Maruti", "red");
+            Assert.assertEquals(car, true);
+        } catch (CarSystemException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // UnPark The Car
@@ -44,7 +49,21 @@ public class CarParkingTest {
 
             carParkingSystem.unParkTheCar("MH-12-7382");
         } catch (CarSystemException e) {
-            Assert.assertEquals("DATA_NOT_FOUND", e.getMessage());
+            Assert.assertEquals(CarSystemException.ExceptionType.DATA_NOT_FOUND, e.type);
+        }
+    }
+
+    // Parking Slot Is Full OR Not
+    @Test
+    public void whenParkingLotFull_itShouldThrowException() {
+
+        try {
+            CarParkingSystem carParkingSystem = new CarParkingSystem();
+            for (int i = 0; i < 101; i++) {
+                boolean car = carParkingSystem.parkTheCar(i + "MH-12-2343", i + "Maruti", i + "red");
+            }
+        } catch (CarSystemException e) {
+            Assert.assertEquals(CarSystemException.ExceptionType.PARKING_SLOT_FULL, e.type);
         }
     }
 }
