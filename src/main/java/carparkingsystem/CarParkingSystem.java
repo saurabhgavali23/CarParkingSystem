@@ -16,6 +16,7 @@ public class CarParkingSystem {
 
             return true;
         }
+        new AirportSecuritySystem().isParkingFull();
         throw new CarSystemException(CarSystemException.ExceptionType.PARKING_SLOT_FULL, "PARKING_SLOT_FULL");
     }
 
