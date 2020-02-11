@@ -73,7 +73,7 @@ public class CarParkingTest {
 
         try {
             CarParkingSystem carParkingSystem = new CarParkingSystem();
-            for (int i = 1; i <= 101; i++) {
+            for (int i = 1; i <= 102; i++) {
                 boolean car = carParkingSystem.parkTheCar(i + "MH-12-2343", i + "Maruti", i + "red");
             }
 

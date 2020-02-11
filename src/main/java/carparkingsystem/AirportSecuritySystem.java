@@ -2,10 +2,10 @@ package carparkingsystem;
 
 public class AirportSecuritySystem {
 
-    boolean isParking;
+    static boolean isParking;
 
-    public void changeParkingStatus(boolean status) {
-        this.isParking = status;
+    public static void changeParkingStatus(boolean status) {
+        isParking = status;
     }
 
     public boolean isParkingFull(){

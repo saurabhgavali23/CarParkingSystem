@@ -4,7 +4,7 @@ import java.util.*;
 
 public class CarParkingSystem {
 
-    int SLOT_SIZE = 100;
+    int SLOT_SIZE = 3;
     Map<Integer, CarDetails> carPark = new HashMap<>();
     CarDetails carDetails = new CarDetails();
 
