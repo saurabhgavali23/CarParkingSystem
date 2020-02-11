@@ -19,7 +19,6 @@ public class CarParkingTest {
         } catch (CarSystemException e) {
             e.printStackTrace();
         }
-
     }
 
     // UnPark The Car
@@ -63,7 +62,6 @@ public class CarParkingTest {
             for (int i = 1; i <= 102; i++) {
                 boolean car = carParkingSystem.parkTheCar(i + "MH-12-2343", i + "Maruti", i + "red");
             }
-            carParkingSystem.getParkingDetail();
         } catch (CarSystemException e) {
             Assert.assertEquals(CarSystemException.ExceptionType.PARKING_SLOT_FULL, e.type);
         }
@@ -71,17 +69,34 @@ public class CarParkingTest {
 
     // Parking Slot Is Full OR Not For Airport Security
     @Test
-    public void whenParkingLotFull_itShouldKnowTheAirpotSecurity() {
+    public void whenParkingLotFull_itShouldKnowTheAirportSecurity() {
 
         try {
             CarParkingSystem carParkingSystem = new CarParkingSystem();
-            for (int i = 1; i <= 102; i++) {
+            for (int i = 1; i <= 101; i++) {
                 boolean car = carParkingSystem.parkTheCar(i + "MH-12-2343", i + "Maruti", i + "red");
             }
 
         } catch (CarSystemException e) {
 
             Assert.assertEquals(true, new AirportSecuritySystem().isParkingFull());
+        }
+    }
+
+    // Parking Slot Has Space Again For Airport Security
+    @Test
+    public void whenUnParkTheCar_parkingLotHasSpaceAgain_itShouldReturnFalse() {
+
+        try {
+            CarParkingSystem carParkingSystem = new CarParkingSystem();
+            boolean car = carParkingSystem.parkTheCar("MH-12-2343", "Maruti", "red");
+            boolean car1 = carParkingSystem.parkTheCar("MH-12-8382", "Suzuki", "black");
+            boolean car2 = carParkingSystem.parkTheCar("MH-12-7483", "Honda", "silver");
+
+            carParkingSystem.unParkTheCar("MH-12-7483");
+
+        } catch (CarSystemException e) {
+            Assert.assertEquals(false, new AirportSecuritySystem().isParkingFull());
         }
     }
 }

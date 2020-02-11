@@ -16,7 +16,7 @@ public class CarParkingSystem {
 
             return true;
         }
-        new AirportSecuritySystem().isParkingFull();
+        new AirportSecuritySystem().changeParkingStatus(true);
         throw new CarSystemException(CarSystemException.ExceptionType.PARKING_SLOT_FULL, "PARKING_SLOT_FULL");
     }
 
@@ -31,6 +31,7 @@ public class CarParkingSystem {
             if (numPlate.equals(list.getValue().getNumPlate())) {
                 Integer key = list.getKey();
                 carPark.remove(key);
+                new AirportSecuritySystem().changeParkingStatus(false);
                 return true;
             }
         }
