@@ -8,8 +8,7 @@ public class AirportSecuritySystem {
         isParking = status;
     }
 
-    public boolean isParkingFull(){
+    public boolean isParkingFull() {
         return this.isParking;
     }
-
 }

@@ -4,7 +4,7 @@ import java.util.*;
 
 public class CarParkingSystem {
 
-    int SLOT_SIZE = 3;
+    int SLOT_SIZE = 100;
     Map<Integer, CarDetails> carPark = new HashMap<>();
     CarDetails carDetails = new CarDetails();
 
@@ -27,14 +27,24 @@ public class CarParkingSystem {
 
     public boolean unParkTheCar(String numPlate) throws CarSystemException {
 
-        for (Map.Entry<Integer, CarDetails> list : carPark.entrySet()) {
-            if (numPlate.equals(list.getValue().getNumPlate())) {
-                Integer key = list.getKey();
-                carPark.remove(key);
-                new AirportSecuritySystem().changeParkingStatus(false);
-                return true;
-            }
+        int key = this.getSearchedCarKey(numPlate);
+        if (key != 0) {
+            carPark.remove(key);
+            new AirportSecuritySystem().changeParkingStatus(false);
+            return true;
         }
         throw new CarSystemException(CarSystemException.ExceptionType.DATA_NOT_FOUND, "DATA_NOT_FOUND");
     }
+
+    public int getSearchedCarKey(String numPlate) {
+
+        for (Map.Entry<Integer, CarDetails> carList : carPark.entrySet()) {
+            if (numPlate.equals(carList.getValue().getNumPlate())) {
+                Integer key = carList.getKey();
+                return key;
+            }
+        }
+        return 0;
+    }
+
 }
