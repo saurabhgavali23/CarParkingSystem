@@ -4,47 +4,23 @@ import java.util.*;
 
 public class CarParkingSystem {
 
-    int SLOT_SIZE = 100;
-    Map<Integer, CarDetails> carPark = new HashMap<>();
-    CarDetails carDetails = new CarDetails();
+    List vehiclePark = new ArrayList();
+    private Object vehicle;
 
-    public boolean parkTheCar(String numPlate, String model, String color) throws CarSystemException {
+    public boolean parkTheVehicle(Object vehicle) {
 
-        if (SLOT_SIZE >= carPark.size()) {
-
-            carPark.put(carDetails.getSlotNum(), new CarDetails(numPlate, model, color));
-
+        this.vehicle = vehicle;
             return true;
-        }
-        new AirportSecuritySystem().changeParkingStatus(true);
-        throw new CarSystemException(CarSystemException.ExceptionType.PARKING_SLOT_FULL, "PARKING_SLOT_FULL");
     }
 
-    public void getParkingDetail() {
+    public boolean unParkTheVehicle(String numPlate) {
 
-        carPark.forEach((k, v) -> System.out.println("Slot No: " + k + " = " + v));
-    }
-
-    public boolean unParkTheCar(String numPlate) throws CarSystemException {
-
-        int key = this.getSearchedCarKey(numPlate);
+        int key = 0;
         if (key != 0) {
-            carPark.remove(key);
+            vehiclePark.remove(key);
             new AirportSecuritySystem().changeParkingStatus(false);
             return true;
         }
-        throw new CarSystemException(CarSystemException.ExceptionType.DATA_NOT_FOUND, "DATA_NOT_FOUND");
+        return false;
     }
-
-    public int getSearchedCarKey(String numPlate) {
-
-        for (Map.Entry<Integer, CarDetails> carList : carPark.entrySet()) {
-            if (numPlate.equals(carList.getValue().getNumPlate())) {
-                Integer key = carList.getKey();
-                return key;
-            }
-        }
-        return 0;
-    }
-
 }
