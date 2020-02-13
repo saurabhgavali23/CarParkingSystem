@@ -2,27 +2,34 @@ package carparkingtest;
 
 import carparkingsystem.CarParkingSystem;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class CarParkingTest {
 
-    CarParkingSystem carParkingSystem = new CarParkingSystem();
+    CarParkingSystem carParkingSystem = null;
+    Object vehicle = null;
+    @Before
+    public void setUp() throws Exception {
+        carParkingSystem = new CarParkingSystem();
+         vehicle = new Object();
+    }
 
     // Park The Vehicle
     @Test
     public void givenVehicle_whenIsPark_ItShouldReturnTrue() {
 
-            CarParkingSystem carParkingSystem = new CarParkingSystem();
-            boolean isParked = carParkingSystem.parkTheVehicle(new Object());
+            boolean isParked = carParkingSystem.parkTheVehicle(vehicle);
             Assert.assertEquals(isParked, true);
     }
 
     // UnPark The Car
     @Test
-    public void whenGivenCarNumberPlate_ifItIsFound_thenUnParkTheCar_itShouldReturnTrue() {
+    public void givenParkedVehicle_whenIsUnParked_itShouldReturnTrue() {
 
-            boolean searchDetail = carParkingSystem.unParkTheVehicle("MH-12-7483");
-            Assert.assertEquals(true, searchDetail);
+        carParkingSystem.parkTheVehicle(vehicle);
+        boolean vehicle = carParkingSystem.unParkTheVehicle(this.vehicle);
+        Assert.assertEquals(true, vehicle);
     }
 
     @Test

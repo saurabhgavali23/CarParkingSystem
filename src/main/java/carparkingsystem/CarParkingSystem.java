@@ -13,12 +13,10 @@ public class CarParkingSystem {
             return true;
     }
 
-    public boolean unParkTheVehicle(String numPlate) {
+    public boolean unParkTheVehicle(Object vehicle) {
 
-        int key = 0;
-        if (key != 0) {
-            vehiclePark.remove(key);
-            new AirportSecuritySystem().changeParkingStatus(false);
+        if(this.vehicle == vehicle) {
+            this.vehicle = null;
             return true;
         }
         return false;
