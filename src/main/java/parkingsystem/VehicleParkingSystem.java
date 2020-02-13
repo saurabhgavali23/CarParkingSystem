@@ -1,23 +1,26 @@
 package parkingsystem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class VehicleParkingSystem {
 
     private final int parkingCapacity;
-    private Object vehicle;
 
-    List vehicleList = null;
+    List vehicleList;
 
     public VehicleParkingSystem(int capacity) {
         this.parkingCapacity = capacity;
         this.vehicleList = new ArrayList();
+        this.vehicleList.addAll(Arrays.asList(new Object[capacity]));
+
     }
 
-    public boolean parkTheVehicle(Object vehicle) throws ParkingSystemException {
-
+    public boolean parkTheVehicle(Object vehicle, int... pos) throws ParkingSystemException {
         if (this.vehicleList.size() != this.parkingCapacity) {
+            if (pos != null)
+                this.vehicleList.add(pos[0], vehicle);
             this.vehicleList.add(vehicle);
             return true;
         }
