@@ -1,4 +1,4 @@
-package carparkingsystem;
+package parkingsystem;
 
 public class AirportSecuritySystem {
 
