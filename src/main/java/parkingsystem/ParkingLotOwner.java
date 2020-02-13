@@ -1,6 +1,6 @@
 package parkingsystem;
 
-public class ParkingLotOwner {
+public class ParkingLotOwner implements ParkingSystem{
 
     private static boolean isParking = false;
 

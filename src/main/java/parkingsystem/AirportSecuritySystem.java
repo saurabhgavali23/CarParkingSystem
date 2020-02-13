@@ -1,11 +1,11 @@
 package parkingsystem;
 
-public class AirportSecuritySystem {
+public class AirportSecuritySystem implements ParkingSystem {
 
-    static boolean isParking;
+    private static boolean isParking = false;
 
-    public static void changeParkingStatus(boolean status) {
-        isParking = status;
+    public void parkingIsFull() {
+        this.isParking = true;
     }
 
     public boolean isParkingFull() {

@@ -1,7 +1,8 @@
 package parkingtest;
 
+import parkingsystem.AirportSecuritySystem;
 import parkingsystem.ParkingLotOwner;
-import parkingsystem.ParkingSystem;
+import parkingsystem.VehicleParkingSystem;
 import parkingsystem.ParkingSystemException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,12 +10,12 @@ import org.junit.Test;
 
 public class ParkingTest {
 
-    ParkingSystem parkingSystem = null;
+    VehicleParkingSystem parkingSystem = null;
     Object vehicle = null;
 
     @Before
     public void setUp() throws Exception {
-        parkingSystem = new ParkingSystem(1);
+        parkingSystem = new VehicleParkingSystem(1);
         vehicle = new Object();
     }
 
@@ -26,7 +27,6 @@ public class ParkingTest {
             boolean isParked = parkingSystem.parkTheVehicle(vehicle);
             Assert.assertEquals(isParked, true);
         } catch (ParkingSystemException e) {
-            e.printStackTrace();
         }
     }
 
@@ -39,7 +39,6 @@ public class ParkingTest {
             boolean vehicle = parkingSystem.unParkTheVehicle(this.vehicle);
             Assert.assertEquals(true, vehicle);
         } catch (ParkingSystemException e) {
-            e.printStackTrace();
         }
     }
 
@@ -54,7 +53,6 @@ public class ParkingTest {
             e.printStackTrace();
         }
     }
-
 
     // Parking Slot Is Full OR Not For Parking Owner
     @Test
@@ -74,13 +72,13 @@ public class ParkingTest {
     @Test
     public void whenParkingLotFull_itShouldKnowTheAirportSecurity() {
 
-        for (int i = 1; i <= 101; i++) {
-            try {
-                boolean car = parkingSystem.parkTheVehicle(new Object());
-            } catch (ParkingSystemException e) {
-                e.printStackTrace();
-            }
+        try {
+            parkingSystem.parkTheVehicle(vehicle);
+            parkingSystem.parkTheVehicle(vehicle);
+        } catch (ParkingSystemException e) {
         }
+        boolean parkingFull = new AirportSecuritySystem().isParkingFull();
+        Assert.assertTrue(parkingFull);
     }
 
     // Parking Slot Has Space Again For Airport Security
