@@ -1,10 +1,7 @@
 package carparkingsystem;
 
-import java.util.*;
-
 public class CarParkingSystem {
 
-    List vehiclePark = new ArrayList();
     private Object vehicle;
 
     public boolean parkTheVehicle(Object vehicle) {
@@ -19,6 +16,13 @@ public class CarParkingSystem {
             this.vehicle = null;
             return true;
         }
+        return false;
+    }
+
+    public boolean isVehicleParked(Object vehicle) {
+
+        if(this.vehicle != vehicle)
+            return true;
         return false;
     }
 }
