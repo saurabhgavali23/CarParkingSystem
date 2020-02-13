@@ -1,32 +1,36 @@
 package parkingsystem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class VehicleParkingSystem {
 
     private final int parkingCapacity;
     private Object vehicle;
-    private int currentCapacity;
+
+    List vehicleList = null;
 
     public VehicleParkingSystem(int capacity) {
         this.parkingCapacity = capacity;
-        this.currentCapacity = 0;
+        this.vehicleList = new ArrayList();
     }
 
     public boolean parkTheVehicle(Object vehicle) throws ParkingSystemException {
 
-        if (this.currentCapacity != this.parkingCapacity) {
-            this.vehicle = vehicle;
-            this.currentCapacity++;
+        if (this.vehicleList.size() != this.parkingCapacity) {
+            this.vehicleList.add(vehicle);
             return true;
         }
-        new ParkingLotOwner().parkingIsFull();
-        new AirportSecuritySystem().parkingIsFull();
+        new ParkingLotOwner().parkingIsFull(true);
+        new AirportSecuritySystem().parkingIsFull(true);
         throw new ParkingSystemException("Parking_Slot_Is_Full");
     }
 
     public boolean unParkTheVehicle(Object vehicle) throws ParkingSystemException {
 
         if (this.isVehicleParked(vehicle)) {
-            this.vehicle = null;
+            this.vehicleList.remove(vehicle);
+            new AirportSecuritySystem().parkingIsFull(false);
             return true;
         }
         throw new ParkingSystemException("Vehicle_Is_Not_Found");
@@ -34,7 +38,7 @@ public class VehicleParkingSystem {
 
     public boolean isVehicleParked(Object vehicle) {
 
-        if (this.vehicle != vehicle)
+        if (this.vehicleList.contains(vehicle))
             return true;
         return false;
     }

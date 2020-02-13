@@ -43,14 +43,13 @@ public class ParkingTest {
     }
 
     @Test
-    public void givenVehicle_whenItsNotFound_itShouldReturnTrue() {
+    public void givenVehicle_whenItsNotFound_itShouldReturnFalse() {
 
         try {
             parkingSystem.parkTheVehicle(vehicle);
             boolean vehicleParked = parkingSystem.isVehicleParked(new Object());
-            Assert.assertTrue(vehicleParked);
+            Assert.assertFalse(vehicleParked);
         } catch (ParkingSystemException e) {
-            e.printStackTrace();
         }
     }
 
@@ -83,8 +82,14 @@ public class ParkingTest {
 
     // Parking Slot Has Space Again For Airport Security
     @Test
-    public void whenUnParkTheCar_parkingLotHasSpaceAgain_itShouldKnowTheAirportSecurity() throws ParkingSystemException {
+    public void whenUnParkTheCar_parkingLotHasSpaceAgain_itShouldKnowTheAirportSecurity() {
 
-        parkingSystem.unParkTheVehicle("MH-12-7483");
+        try {
+            parkingSystem.parkTheVehicle(vehicle);
+            parkingSystem.unParkTheVehicle(vehicle);
+            boolean parkingFull = new AirportSecuritySystem().isParkingFull();
+            Assert.assertFalse(parkingFull);
+        } catch (ParkingSystemException e) {
+        }
     }
 }

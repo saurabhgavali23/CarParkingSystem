@@ -4,8 +4,8 @@ public class AirportSecuritySystem implements ParkingSystem {
 
     private static boolean isParking = false;
 
-    public void parkingIsFull() {
-        this.isParking = true;
+    public void parkingIsFull(boolean status) {
+        this.isParking = status;
     }
 
     public boolean isParkingFull() {
