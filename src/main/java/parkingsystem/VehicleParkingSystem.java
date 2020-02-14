@@ -8,12 +8,11 @@ public class VehicleParkingSystem {
 
     private final int parkingCapacity;
 
-    List vehicleList;
+    ArrayList<Object> vehicleList;
 
     public VehicleParkingSystem(int capacity) {
         this.parkingCapacity = capacity;
-        this.vehicleList = new ArrayList();
-        this.vehicleList.addAll(Arrays.asList(new Object[capacity]));
+        this.vehicleList = new ArrayList(Arrays.asList(new Object[capacity + 1]));
 
     }
 
@@ -22,6 +21,7 @@ public class VehicleParkingSystem {
             if (pos != null)
                 this.vehicleList.add(pos[0], vehicle);
             this.vehicleList.add(vehicle);
+            System.out.println(this.vehicleList);
             return true;
         }
         new ParkingLotOwner().parkingIsFull(true);

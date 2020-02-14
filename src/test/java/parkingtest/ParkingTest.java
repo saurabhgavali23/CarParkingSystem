@@ -62,11 +62,9 @@ public class ParkingTest {
     public void whenParkingLotFull_itShouldThrowException() {
         boolean vehicle1 = false;
         try {
-            for (int i = 0; i < capacity; i++) {
-                vehicle1 = parkingSystem.parkTheVehicle(vehicle[i], null);
+            for (int i = 0; i < capacity + 1 ; i++) {
+                parkingSystem.parkTheVehicle(vehicle[i], null);
             }
-            boolean vehicle2 = parkingSystem.parkTheVehicle(vehicle, null);
-            Assert.assertTrue(vehicle1 && vehicle2);
         } catch (ParkingSystemException e) {
         }
         boolean parkingFull = new ParkingLotOwner().isParkingFull();
@@ -79,11 +77,9 @@ public class ParkingTest {
 
         boolean vehicle1 = false;
         try {
-            for (int i = 0; i < capacity; i++) {
-                vehicle1 = parkingSystem.parkTheVehicle(vehicle[i], null);
+            for (int i = 0; i < capacity + 1; i++) {
+                parkingSystem.parkTheVehicle(vehicle[i], null);
             }
-            boolean vehicle2 = parkingSystem.parkTheVehicle(vehicle, null);
-            Assert.assertTrue(vehicle1 && vehicle2);
         } catch (ParkingSystemException e) {
         }
         boolean parkingFull = new AirportSecuritySystem().isParkingFull();
@@ -112,6 +108,19 @@ public class ParkingTest {
             parkingSystem.unParkTheVehicle(vehicle[0]);
             boolean parkingFull = new AirportSecuritySystem().isParkingFull();
             Assert.assertFalse(parkingFull);
+        } catch (ParkingSystemException e) {
+        }
+    }
+
+    // Search The Car
+    @Test
+    public void givenVehicle_whenVehicleIsFound_ShouldReturnTrue() {
+
+        try {
+            parkingSystem.parkTheVehicle(vehicle[0], 0);
+            parkingSystem.parkTheVehicle(vehicle[1], 1);
+            boolean vehicleParked = parkingSystem.isVehicleParked(vehicle[1]);
+            Assert.assertTrue(vehicleParked);
         } catch (ParkingSystemException e) {
         }
     }
