@@ -10,16 +10,13 @@ import org.junit.Test;
 
 public class ParkingTest {
 
-    int capacity;
     VehicleParkingSystem parkingSystem = null;
-    Object[] vehicle = null;
+    Object[] vehicle = new Object[3];
 
     @Before
     public void setUp() throws Exception {
-        capacity = 2;
-        parkingSystem = new VehicleParkingSystem(capacity);
-        vehicle = new Object[capacity];
-        for (int i = 0; i < capacity; i++)
+        parkingSystem = new VehicleParkingSystem(2);
+        for (int i = 0; i < vehicle.length; i++)
             vehicle[i] = new Object();
     }
 
@@ -28,8 +25,8 @@ public class ParkingTest {
     public void givenVehicle_whenIsPark_ItShouldReturnTrue() {
 
         try {
-            boolean isParked = parkingSystem.parkTheVehicle(vehicle[0], null);
-            Assert.assertEquals(isParked, true);
+            boolean isParked = parkingSystem.parkTheVehicle(vehicle[0]);
+            Assert.assertTrue(isParked);
         } catch (ParkingSystemException e) {
         }
     }
@@ -39,9 +36,9 @@ public class ParkingTest {
     public void givenParkedVehicle_whenIsUnParked_itShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle, null);
+            parkingSystem.parkTheVehicle(vehicle[1]);
             boolean vehicle = parkingSystem.unParkTheVehicle(this.vehicle[1]);
-            Assert.assertEquals(true, vehicle);
+            Assert.assertTrue(vehicle);
         } catch (ParkingSystemException e) {
         }
     }
@@ -50,7 +47,7 @@ public class ParkingTest {
     public void givenVehicle_whenItsNotFound_itShouldReturnFalse() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle, null);
+            parkingSystem.parkTheVehicle(vehicle);
             boolean vehicleParked = parkingSystem.isVehicleParked(new Object());
             Assert.assertFalse(vehicleParked);
         } catch (ParkingSystemException e) {
@@ -59,12 +56,11 @@ public class ParkingTest {
 
     // Parking Slot Is Full OR Not For Parking Owner
     @Test
-    public void whenParkingLotFull_itShouldThrowException() {
-        boolean vehicle1 = false;
+    public void whenParkingLotFull_itShouldThrowException() throws ParkingSystemException {
         try {
-            for (int i = 0; i < capacity + 1 ; i++) {
-                parkingSystem.parkTheVehicle(vehicle[i], null);
-            }
+            for (int i = 0; i < vehicle.length; i++)
+                parkingSystem.parkTheVehicle(vehicle[i]);
+
         } catch (ParkingSystemException e) {
         }
         boolean parkingFull = new ParkingLotOwner().isParkingFull();
@@ -75,10 +71,9 @@ public class ParkingTest {
     @Test
     public void whenParkingLotFull_itShouldKnowTheAirportSecurity() {
 
-        boolean vehicle1 = false;
         try {
-            for (int i = 0; i < capacity + 1; i++) {
-                parkingSystem.parkTheVehicle(vehicle[i], null);
+            for (int i = 0; i < vehicle.length; i++) {
+                parkingSystem.parkTheVehicle(vehicle[i]);
             }
         } catch (ParkingSystemException e) {
         }
@@ -91,7 +86,7 @@ public class ParkingTest {
     public void whenUnParkTheCar_parkingLotHasSpaceAgain_itShouldKnowTheAirportSecurity() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0], null);
+            parkingSystem.parkTheVehicle(vehicle[0]);
             parkingSystem.unParkTheVehicle(vehicle[0]);
             boolean parkingFull = new AirportSecuritySystem().isParkingFull();
             Assert.assertFalse(parkingFull);
@@ -104,8 +99,7 @@ public class ParkingTest {
     public void givenParkingPosition_whenVehicleIsParked_ShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0], 1);
-            parkingSystem.unParkTheVehicle(vehicle[0]);
+            parkingSystem.parkTheVehicle(vehicle[0]);
             boolean parkingFull = new AirportSecuritySystem().isParkingFull();
             Assert.assertFalse(parkingFull);
         } catch (ParkingSystemException e) {
@@ -117,8 +111,8 @@ public class ParkingTest {
     public void givenVehicle_whenVehicleIsFound_ShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0], 0);
-            parkingSystem.parkTheVehicle(vehicle[1], 1);
+            parkingSystem.parkTheVehicle(vehicle[0]);
+            parkingSystem.parkTheVehicle(vehicle[1]);
             boolean vehicleParked = parkingSystem.isVehicleParked(vehicle[1]);
             Assert.assertTrue(vehicleParked);
         } catch (ParkingSystemException e) {

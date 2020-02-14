@@ -1,32 +1,32 @@
 package parkingsystem;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class VehicleParkingSystem {
 
     private final int parkingCapacity;
 
-    ArrayList<Object> vehicleList;
+    Map<Integer, Object> vehicleList;
 
     public VehicleParkingSystem(int capacity) {
         this.parkingCapacity = capacity;
-        this.vehicleList = new ArrayList(Arrays.asList(new Object[capacity + 1]));
-
+        this.vehicleList = new HashMap<>();
     }
 
-    public boolean parkTheVehicle(Object vehicle, int... pos) throws ParkingSystemException {
-        if (this.vehicleList.size() != this.parkingCapacity) {
-            if (pos != null)
-                this.vehicleList.add(pos[0], vehicle);
-            this.vehicleList.add(vehicle);
-            System.out.println(this.vehicleList);
+    public boolean parkTheVehicle(Object vehicle) throws ParkingSystemException {
+
+        if (this.vehicleList.size() < this.parkingCapacity) {
+            this.vehicleList.put(this.getTheParkingSlot(), vehicle);
             return true;
         }
         new ParkingLotOwner().parkingIsFull(true);
         new AirportSecuritySystem().parkingIsFull(true);
         throw new ParkingSystemException("Parking_Slot_Is_Full");
+    }
+
+    private int getTheParkingSlot() {
+        Random random = new Random();
+        return 1 + random.nextInt(100);
     }
 
     public boolean unParkTheVehicle(Object vehicle) throws ParkingSystemException {
@@ -40,8 +40,7 @@ public class VehicleParkingSystem {
     }
 
     public boolean isVehicleParked(Object vehicle) {
-
-        if (this.vehicleList.contains(vehicle))
+        if (this.vehicleList.containsValue(vehicle))
             return true;
         return false;
     }
