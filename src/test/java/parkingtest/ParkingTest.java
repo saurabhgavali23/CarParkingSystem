@@ -1,9 +1,6 @@
 package parkingtest;
 
-import parkingsystem.AirportSecuritySystem;
-import parkingsystem.ParkingLotOwner;
-import parkingsystem.VehicleParkingSystem;
-import parkingsystem.ParkingSystemException;
+import parkingsystem.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -115,6 +112,19 @@ public class ParkingTest {
             parkingSystem.parkTheVehicle(vehicle[1]);
             boolean vehicleParked = parkingSystem.isVehicleParked(vehicle[1]);
             Assert.assertTrue(vehicleParked);
+        } catch (ParkingSystemException e) {
+        }
+    }
+
+    // Parked Car By Time
+    @Test
+    public void givenVehicleAndParkedTime_whenVehicleIsParked_ShouldReturnTrue() {
+
+        try {
+            parkingSystem.parkTheVehicle(vehicle[0]);
+            String timeAndDate = new VehicleParkingSystem().getTimeAndDate();
+            parkingSystem.unParkTheVehicle(vehicle[0]);
+          Assert.assertEquals(timeAndDate,new ParkingLotOwner().getDateAndTime());
         } catch (ParkingSystemException e) {
         }
     }
