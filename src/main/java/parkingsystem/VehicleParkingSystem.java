@@ -6,21 +6,25 @@ import java.util.*;
 
 public class VehicleParkingSystem {
 
+    private int totalSlot;
     private int parkingCapacity;
-
+    static int i = 1;
+    static int j = 0;
     Map<Integer, Object> vehicleList;
 
-    public VehicleParkingSystem(int capacity) {
+    public VehicleParkingSystem(int capacity, int totalSlot) {
         this.parkingCapacity = capacity;
+        this.totalSlot = totalSlot;
         this.vehicleList = new HashMap<>();
     }
 
-    public VehicleParkingSystem() { }
+    public VehicleParkingSystem() {
+    }
 
     public boolean parkTheVehicle(Object vehicle) throws ParkingSystemException {
 
         if (this.vehicleList.size() < this.parkingCapacity) {
-            this.vehicleList.put(this.getTheParkingSlot(), (vehicle+" "+this.getTimeAndDate()));
+            this.vehicleList.put(this.getTheParkingSlot(), (vehicle + " " + this.getTimeAndDate()));
             return true;
         }
         new ParkingLotOwner().parkingIsFull(true);
@@ -29,8 +33,13 @@ public class VehicleParkingSystem {
     }
 
     private int getTheParkingSlot() {
-        Random random = new Random();
-        return 1 + random.nextInt(100);
+        if (vehicleList.size() >= totalSlot) {
+            i = i + 1;
+            j = 0;
+        }
+        int slotNo = i + ((parkingCapacity / totalSlot) * j);
+        j = j + 1;
+        return slotNo;
     }
 
     public boolean unParkTheVehicle(Object vehicle) throws ParkingSystemException {
@@ -45,12 +54,12 @@ public class VehicleParkingSystem {
     }
 
     public boolean isVehicleParked(Object vehicle) {
-        if (this.vehicleList.containsValue(vehicle+" "+this.getTimeAndDate()))
+        if (this.vehicleList.containsValue(vehicle + " " + this.getTimeAndDate()))
             return true;
         return false;
     }
 
-    public String getTimeAndDate(){
+    public String getTimeAndDate() {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
         return dateFormat.format(date);

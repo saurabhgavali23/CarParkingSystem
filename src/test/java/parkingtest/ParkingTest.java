@@ -8,11 +8,11 @@ import org.junit.Test;
 public class ParkingTest {
 
     VehicleParkingSystem parkingSystem = null;
-    Object[] vehicle = new Object[3];
+    Object[] vehicle = new Object[101];
 
     @Before
     public void setUp() throws Exception {
-        parkingSystem = new VehicleParkingSystem(2);
+        parkingSystem = new VehicleParkingSystem(100, 5);
         for (int i = 0; i < vehicle.length; i++)
             vehicle[i] = new Object();
     }
@@ -53,7 +53,7 @@ public class ParkingTest {
 
     // Parking Slot Is Full OR Not For Parking Owner
     @Test
-    public void whenParkingLotFull_itShouldThrowException() throws ParkingSystemException {
+    public void whenParkingLotFull_itShouldThrowException() {
         try {
             for (int i = 0; i < vehicle.length; i++)
                 parkingSystem.parkTheVehicle(vehicle[i]);
@@ -124,7 +124,19 @@ public class ParkingTest {
             parkingSystem.parkTheVehicle(vehicle[0]);
             String timeAndDate = new VehicleParkingSystem().getTimeAndDate();
             parkingSystem.unParkTheVehicle(vehicle[0]);
-          Assert.assertEquals(timeAndDate,new ParkingLotOwner().getDateAndTime());
+            Assert.assertEquals(timeAndDate, new ParkingLotOwner().getDateAndTime());
+        } catch (ParkingSystemException e) {
+        }
+    }
+
+    // Park The Car Evenly In Lot
+    @Test
+    public void givenVehicleList_whenVehicleParkedEvenly_ShouldReturnTrue() {
+
+        try {
+            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0]);
+            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[1]);
+            Assert.assertEquals(vehicle, vehicle1);
         } catch (ParkingSystemException e) {
         }
     }
