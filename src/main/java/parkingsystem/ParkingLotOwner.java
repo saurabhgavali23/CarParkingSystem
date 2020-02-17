@@ -2,8 +2,8 @@ package parkingsystem;
 
 public class ParkingLotOwner implements ParkingSystem {
 
-    private static boolean isParking = false;
-    private static String parkedDateAndTime;
+    public static boolean isParking = false;
+    public static String parkedDateAndTime;
 
     public void parkingIsFull(boolean status) {
         this.isParking = status;

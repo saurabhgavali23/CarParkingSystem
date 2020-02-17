@@ -40,6 +40,16 @@ public class ParkingTest {
         }
     }
 
+    // UnPark The UnParked Vehicle
+    @Test
+    public void givenUnParkedVehicle_whenIsNotFound_itShouldThrowException() {
+        try {
+            boolean vehicle = parkingSystem.unParkTheVehicle(this.vehicle[1]);
+            Assert.assertFalse(vehicle);
+        } catch (ParkingSystemException e) {
+        }
+    }
+
     @Test
     public void givenVehicle_whenItsNotFound_itShouldReturnFalse() {
 
@@ -95,9 +105,9 @@ public class ParkingTest {
     public void givenParkingPosition_whenVehicleIsParked_ShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0]);
-            boolean parkingFull = new AirportSecuritySystem().isParkingFull();
-            Assert.assertFalse(parkingFull);
+            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0]);
+            Assert.assertTrue(vehicle);
+
         } catch (ParkingSystemException e) {
         }
     }

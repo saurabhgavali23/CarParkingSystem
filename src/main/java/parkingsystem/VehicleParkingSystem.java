@@ -13,6 +13,7 @@ public class VehicleParkingSystem {
     private int count = 0;
     Map<Integer, Object> vehicleList;
     Object obj[] = null;
+    ParkingStatusNotifier parkingStatusNotifier = new ParkingStatusNotifier();
 
     public VehicleParkingSystem(int capacity, int totalSlot) {
         this.parkingCapacity = capacity;
@@ -25,8 +26,7 @@ public class VehicleParkingSystem {
         }
     }
 
-    public VehicleParkingSystem() {
-    }
+    public VehicleParkingSystem() { }
 
     public boolean parkTheVehicle(Object vehicle) throws ParkingSystemException {
         Boolean driverStatus = null;
@@ -49,8 +49,7 @@ public class VehicleParkingSystem {
             list.add(this.vehicleList.get(slot));
             return true;
         }
-        new ParkingLotOwner().parkingIsFull(true);
-        new AirportSecuritySystem().parkingIsFull(true);
+        parkingStatusNotifier.setParkingStatus(true);
         throw new ParkingSystemException("Parking_Slot_Is_Full");
     }
 
@@ -78,7 +77,7 @@ public class VehicleParkingSystem {
             LinkedList list = (LinkedList) obj[vehicleKey];
             if (list.contains(vehicle)) {
                 list.remove(vehicle);
-                this.showList();
+                parkingStatusNotifier.setParkingStatusForFreeSpaceToAirPortSecurity(false);
                 return true;
             }
         }

@@ -2,7 +2,7 @@ package parkingsystem;
 
 public class AirportSecuritySystem implements ParkingSystem {
 
-    private static boolean isParking = false;
+    public static boolean isParking = false;
 
     public void parkingIsFull(boolean status) {
         this.isParking = status;
