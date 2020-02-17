@@ -8,11 +8,11 @@ import org.junit.Test;
 public class ParkingTest {
 
     VehicleParkingSystem parkingSystem = null;
-    Object[] vehicle = new Object[101];
+    Object[] vehicle = new Object[11];
 
     @Before
     public void setUp() throws Exception {
-        parkingSystem = new VehicleParkingSystem(100, 5);
+        parkingSystem = new VehicleParkingSystem(10, 2);
         for (int i = 0; i < vehicle.length; i++)
             vehicle[i] = new Object();
     }
@@ -55,9 +55,8 @@ public class ParkingTest {
     @Test
     public void whenParkingLotFull_itShouldThrowException() {
         try {
-            for (int i = 0; i < vehicle.length; i++)
+            for (int i = 0; i <= vehicle.length; i++)
                 parkingSystem.parkTheVehicle(vehicle[i]);
-
         } catch (ParkingSystemException e) {
         }
         boolean parkingFull = new ParkingLotOwner().isParkingFull();
@@ -69,7 +68,7 @@ public class ParkingTest {
     public void whenParkingLotFull_itShouldKnowTheAirportSecurity() {
 
         try {
-            for (int i = 0; i < vehicle.length; i++) {
+            for (int i = 0; i <= vehicle.length; i++) {
                 parkingSystem.parkTheVehicle(vehicle[i]);
             }
         } catch (ParkingSystemException e) {
