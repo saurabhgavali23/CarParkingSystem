@@ -28,6 +28,17 @@ public class ParkingTest {
         }
     }
 
+    // Park The Same Vehicle Two Times
+    @Test
+    public void givenSameVehicle_whenIsNotPark_ItShouldThrowException() {
+        try {
+            parkingSystem.parkTheVehicle(vehicle[0], null);
+            boolean isParked = parkingSystem.parkTheVehicle(vehicle[0], null);
+            Assert.assertFalse(isParked);
+        } catch (ParkingSystemException e) {
+        }
+    }
+
     // UnPark The Car
     @Test
     public void givenParkedVehicle_whenIsUnParked_itShouldReturnTrue() {
@@ -50,6 +61,7 @@ public class ParkingTest {
         }
     }
 
+    // Check Vehicle Is Parked
     @Test
     public void givenVehicle_whenItsNotFound_itShouldReturnFalse() {
 
@@ -105,9 +117,9 @@ public class ParkingTest {
     public void givenParkingPosition_whenVehicleIsParked_ShouldReturnTrue() {
 
         try {
-            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], null);
-            Assert.assertTrue(vehicle);
-
+            parkingSystem.parkTheVehicle(this.vehicle[0], null);
+            int vehicleKey = parkingSystem.getVehicleKey(this.vehicle[0]);
+            Assert.assertEquals(0,vehicleKey);
         } catch (ParkingSystemException e) {
         }
     }
@@ -156,9 +168,10 @@ public class ParkingTest {
 
         try {
             boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], true);
-            parkingSystem.parkTheVehicle(this.vehicle[1],null);
+            parkingSystem.parkTheVehicle(this.vehicle[1], null);
             boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], true);
-            parkingSystem.showList();
+            parkingSystem.parkTheVehicle(this.vehicle[3], null);
+            parkingSystem.parkTheVehicle(this.vehicle[4], null);
             Assert.assertEquals(vehicle, vehicle1);
         } catch (ParkingSystemException e) {
         }
