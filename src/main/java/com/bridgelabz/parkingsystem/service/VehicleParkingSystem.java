@@ -1,4 +1,7 @@
-package parkingsystem;
+package com.bridgelabz.parkingsystem.service;
+
+import com.bridgelabz.parkingsystem.notifier.ParkingStatusNotifier;
+import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

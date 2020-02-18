@@ -1,17 +1,20 @@
-package parkingtest;
+package com.parkingtest;
 
-import parkingsystem.*;
+import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
+import com.bridgelabz.parkingsystem.notifier.ParkingLotOwner;
+import com.bridgelabz.parkingsystem.service.VehicleParkingSystem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import com.bridgelabz.parkingsystem.notifier.AirportSecuritySystem;
 
-public class ParkingTest {
+public class VehicleParkingTest {
 
     VehicleParkingSystem parkingSystem = null;
     Object[] vehicle = new Object[11];
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         parkingSystem = new VehicleParkingSystem(10, 2);
         for (int i = 0; i < vehicle.length; i++)
             vehicle[i] = new Object();

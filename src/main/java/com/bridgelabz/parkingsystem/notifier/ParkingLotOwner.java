@@ -1,4 +1,4 @@
-package parkingsystem;
+package com.bridgelabz.parkingsystem.notifier;
 
 public class ParkingLotOwner implements ParkingSystem {
 
