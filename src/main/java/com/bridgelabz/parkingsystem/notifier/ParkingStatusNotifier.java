@@ -14,7 +14,7 @@ public class ParkingStatusNotifier {
         securitySystem.parkingIsFull(status);
     }
 
-    public void setUnParkedVehicleDateAndTime(String dateAndTime) {
+    public void setParkedVehicleDateAndTime(String dateAndTime) {
         lotOwner.setDateAndTime(dateAndTime);
     }
 }

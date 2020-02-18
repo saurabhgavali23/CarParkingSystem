@@ -3,22 +3,26 @@ package com.parkingtest;
 import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
 import com.bridgelabz.parkingsystem.notifier.ParkingLotOwner;
 import com.bridgelabz.parkingsystem.parkingenum.ParkingSystemEnum;
+import com.bridgelabz.parkingsystem.service.VehicleDetails;
 import com.bridgelabz.parkingsystem.service.VehicleParkingSystem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import com.bridgelabz.parkingsystem.notifier.AirportSecuritySystem;
 
+import java.util.List;
+import java.util.Map;
+
 public class VehicleParkingTest {
 
     VehicleParkingSystem parkingSystem = null;
-    Object[] vehicle = new Object[11];
+    VehicleDetails[] vehicle = new VehicleDetails[11];
 
     @Before
     public void setUp() {
         parkingSystem = new VehicleParkingSystem(10, 2);
         for (int i = 0; i < vehicle.length; i++)
-            vehicle[i] = new Object();
+            vehicle[i] = new VehicleDetails();
     }
 
     // Park The Vehicle
@@ -188,6 +192,18 @@ public class VehicleParkingTest {
             boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], ParkingSystemEnum.TypeOfVehicle.LCD);
             parkingSystem.parkTheVehicle(this.vehicle[3], ParkingSystemEnum.TypeOfVehicle.ND);
             Assert.assertEquals(vehicle, vehicle1);
+        } catch (ParkingSystemException e) {
+        }
+    }
+
+    // Park The Vehicle With White Color
+    @Test
+    public void givenVehicleWithColor_whenIsPark_ItShouldReturnTrue() {
+        try {
+            parkingSystem.parkTheVehicle(new VehicleDetails(), ParkingSystemEnum.TypeOfVehicle.ND);
+            parkingSystem.parkTheVehicle(new VehicleDetails("White"), ParkingSystemEnum.TypeOfVehicle.ND);
+            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("White");
+            Assert.assertEquals("White", list.get(0).color);
         } catch (ParkingSystemException e) {
         }
     }

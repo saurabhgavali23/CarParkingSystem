@@ -7,6 +7,7 @@ import com.bridgelabz.parkingsystem.parkingenum.ParkingSystemEnum;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class VehicleParkingSystem {
 
@@ -15,7 +16,7 @@ public class VehicleParkingSystem {
     private int i = 0;
     private int j = 0;
     private int count = 0;
-    Map<Integer, Object> vehicleList;
+    Map<Integer, VehicleDetails> vehicleList;
     Object obj[] = null;
     ParkingStatusNotifier parkingStatusNotifier = null;
 
@@ -34,7 +35,7 @@ public class VehicleParkingSystem {
     public VehicleParkingSystem() {
     }
 
-    public boolean parkTheVehicle(Object vehicle, ParkingSystemEnum.TypeOfVehicle driverStatus) throws ParkingSystemException {
+    public boolean parkTheVehicle(VehicleDetails vehicle, ParkingSystemEnum.TypeOfVehicle driverStatus) throws ParkingSystemException {
         int slot = 0;
         if (isVehicleParked(vehicle) == true)
             throw new ParkingSystemException("Vehicle_Is_Already_Park");
@@ -52,6 +53,7 @@ public class VehicleParkingSystem {
             this.vehicleList.put(slot, vehicle);
             LinkedList list = (LinkedList) obj[slot];
             list.add(this.vehicleList.get(slot));
+            parkingStatusNotifier.setParkedVehicleDateAndTime(this.getTimeAndDate());
             return true;
         }
         parkingStatusNotifier.setParkingStatus(true);
@@ -95,7 +97,6 @@ public class VehicleParkingSystem {
             if (list.contains(vehicle)) {
                 list.remove(vehicle);
                 parkingStatusNotifier.setParkingStatusForFreeSpaceToAirPortSecurity(false);
-                parkingStatusNotifier.setUnParkedVehicleDateAndTime(this.getTimeAndDate());
                 return true;
             }
         }
@@ -131,6 +132,15 @@ public class VehicleParkingSystem {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
         return dateFormat.format(date);
+    }
+
+    public List<VehicleDetails> getVehicleByAttribute(String vehicleAttribute) {
+        List<VehicleDetails> list = vehicleList.entrySet()
+                .stream()
+                .filter(value -> vehicleList.get(value.getKey()).toString().contains(vehicleAttribute))
+                .map(value -> value.getValue())
+                .collect(Collectors.toList());
+        return list;
     }
 
     public void showList() {
