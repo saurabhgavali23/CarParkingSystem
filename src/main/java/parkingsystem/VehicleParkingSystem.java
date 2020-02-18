@@ -26,10 +26,10 @@ public class VehicleParkingSystem {
         }
     }
 
-    public VehicleParkingSystem() { }
+    public VehicleParkingSystem() {
+    }
 
-    public boolean parkTheVehicle(Object vehicle) throws ParkingSystemException {
-        Boolean driverStatus = null;
+    public boolean parkTheVehicle(Object vehicle, Boolean... driverStatus) throws ParkingSystemException {
         int slot = 0;
         if (this.vehicleList.size() < this.parkingCapacity) {
             if (driverStatus != null) {
@@ -78,6 +78,7 @@ public class VehicleParkingSystem {
             if (list.contains(vehicle)) {
                 list.remove(vehicle);
                 parkingStatusNotifier.setParkingStatusForFreeSpaceToAirPortSecurity(false);
+                parkingStatusNotifier.setUnParkedVehicleDateAndTime(this.getTimeAndDate());
                 return true;
             }
         }
@@ -93,7 +94,6 @@ public class VehicleParkingSystem {
                 return true;
             }
         } catch (ParkingSystemException e) {
-            e.printStackTrace();
         }
         return false;
     }

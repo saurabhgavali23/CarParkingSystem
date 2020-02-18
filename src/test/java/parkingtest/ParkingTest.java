@@ -22,7 +22,7 @@ public class ParkingTest {
     public void givenVehicle_whenIsPark_ItShouldReturnTrue() {
 
         try {
-            boolean isParked = parkingSystem.parkTheVehicle(vehicle[0]);
+            boolean isParked = parkingSystem.parkTheVehicle(vehicle[0], null);
             Assert.assertTrue(isParked);
         } catch (ParkingSystemException e) {
         }
@@ -33,7 +33,7 @@ public class ParkingTest {
     public void givenParkedVehicle_whenIsUnParked_itShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[1]);
+            parkingSystem.parkTheVehicle(vehicle[1], null);
             boolean vehicle = parkingSystem.unParkTheVehicle(this.vehicle[1]);
             Assert.assertTrue(vehicle);
         } catch (ParkingSystemException e) {
@@ -54,7 +54,7 @@ public class ParkingTest {
     public void givenVehicle_whenItsNotFound_itShouldReturnFalse() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle);
+            parkingSystem.parkTheVehicle(vehicle[0], null);
             boolean vehicleParked = parkingSystem.isVehicleParked(new Object());
             Assert.assertFalse(vehicleParked);
         } catch (ParkingSystemException e) {
@@ -66,7 +66,7 @@ public class ParkingTest {
     public void whenParkingLotFull_itShouldThrowException() {
         try {
             for (int i = 0; i <= vehicle.length; i++)
-                parkingSystem.parkTheVehicle(vehicle[i]);
+                parkingSystem.parkTheVehicle(vehicle[i], null);
         } catch (ParkingSystemException e) {
         }
         boolean parkingFull = new ParkingLotOwner().isParkingFull();
@@ -79,7 +79,7 @@ public class ParkingTest {
 
         try {
             for (int i = 0; i <= vehicle.length; i++) {
-                parkingSystem.parkTheVehicle(vehicle[i]);
+                parkingSystem.parkTheVehicle(vehicle[i], null);
             }
         } catch (ParkingSystemException e) {
         }
@@ -92,7 +92,7 @@ public class ParkingTest {
     public void whenUnParkTheCar_parkingLotHasSpaceAgain_itShouldKnowTheAirportSecurity() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0]);
+            parkingSystem.parkTheVehicle(vehicle[0], null);
             parkingSystem.unParkTheVehicle(vehicle[0]);
             boolean parkingFull = new AirportSecuritySystem().isParkingFull();
             Assert.assertFalse(parkingFull);
@@ -105,7 +105,7 @@ public class ParkingTest {
     public void givenParkingPosition_whenVehicleIsParked_ShouldReturnTrue() {
 
         try {
-            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0]);
+            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], null);
             Assert.assertTrue(vehicle);
 
         } catch (ParkingSystemException e) {
@@ -117,8 +117,8 @@ public class ParkingTest {
     public void givenVehicle_whenVehicleIsFound_ShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0]);
-            parkingSystem.parkTheVehicle(vehicle[1]);
+            parkingSystem.parkTheVehicle(vehicle[0], null);
+            parkingSystem.parkTheVehicle(vehicle[1], null);
             boolean vehicleParked = parkingSystem.isVehicleParked(vehicle[1]);
             Assert.assertTrue(vehicleParked);
         } catch (ParkingSystemException e) {
@@ -130,7 +130,7 @@ public class ParkingTest {
     public void givenVehicleAndParkedTime_whenVehicleIsParked_ShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0]);
+            parkingSystem.parkTheVehicle(vehicle[0], null);
             String timeAndDate = new VehicleParkingSystem().getTimeAndDate();
             parkingSystem.unParkTheVehicle(vehicle[0]);
             Assert.assertEquals(timeAndDate, new ParkingLotOwner().getDateAndTime());
@@ -143,8 +143,22 @@ public class ParkingTest {
     public void givenVehicleList_whenVehicleParkedEvenly_ShouldReturnTrue() {
 
         try {
-            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0]);
-            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[1]);
+            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], null);
+            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[1], null);
+            Assert.assertEquals(vehicle, vehicle1);
+        } catch (ParkingSystemException e) {
+        }
+    }
+
+    // Park The Handicap Vehicle In Nearest Problem
+    @Test
+    public void givenHandicapDriverVehicle_whenVehicleParkedNearestPlace_ShouldReturnTrue() {
+
+        try {
+            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], true);
+            parkingSystem.parkTheVehicle(this.vehicle[1],null);
+            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], true);
+            parkingSystem.showList();
             Assert.assertEquals(vehicle, vehicle1);
         } catch (ParkingSystemException e) {
         }

@@ -5,12 +5,16 @@ public class ParkingStatusNotifier {
     private ParkingLotOwner lotOwner = new ParkingLotOwner();
     private AirportSecuritySystem securitySystem = new AirportSecuritySystem();
 
-    public void setParkingStatus(boolean status){
+    public void setParkingStatus(boolean status) {
         lotOwner.parkingIsFull(status);
         securitySystem.parkingIsFull(status);
     }
 
-    public void setParkingStatusForFreeSpaceToAirPortSecurity(boolean status){
+    public void setParkingStatusForFreeSpaceToAirPortSecurity(boolean status) {
         securitySystem.parkingIsFull(status);
+    }
+
+    public void setUnParkedVehicleDateAndTime(String dateAndTime) {
+        lotOwner.setDateAndTime(dateAndTime);
     }
 }
