@@ -2,6 +2,7 @@ package com.bridgelabz.parkingsystem.service;
 
 import com.bridgelabz.parkingsystem.notifier.ParkingStatusNotifier;
 import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
+import com.bridgelabz.parkingsystem.parkingenum.ParkingSystemEnum;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -33,16 +34,19 @@ public class VehicleParkingSystem {
     public VehicleParkingSystem() {
     }
 
-    public boolean parkTheVehicle(Object vehicle, Boolean... driverStatus) throws ParkingSystemException {
+    public boolean parkTheVehicle(Object vehicle, ParkingSystemEnum.TypeOfVehicle driverStatus) throws ParkingSystemException {
         int slot = 0;
         if (isVehicleParked(vehicle) == true)
             throw new ParkingSystemException("Vehicle_Is_Already_Park");
 
         if (this.vehicleList.size() < this.parkingCapacity) {
-            if (driverStatus != null)
+            if (driverStatus.equals(ParkingSystemEnum.TypeOfVehicle.HD))
                 slot = this.getSlotNoForHandicapDriver();
 
-            if (driverStatus == null)
+            if (driverStatus.equals(ParkingSystemEnum.TypeOfVehicle.ND))
+                slot = this.getTheParkingSlot();
+
+            if (driverStatus.equals(ParkingSystemEnum.TypeOfVehicle.LCD))
                 slot = this.getTheParkingSlot();
 
             this.vehicleList.put(slot, vehicle);
@@ -68,7 +72,6 @@ public class VehicleParkingSystem {
 
     private int getTheParkingSlot() {
         int slotNo;
-
         if (count == totalSlot) {
             i = i + 1;
             j = 0;

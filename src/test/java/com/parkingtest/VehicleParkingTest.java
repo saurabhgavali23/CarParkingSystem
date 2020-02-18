@@ -2,6 +2,7 @@ package com.parkingtest;
 
 import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
 import com.bridgelabz.parkingsystem.notifier.ParkingLotOwner;
+import com.bridgelabz.parkingsystem.parkingenum.ParkingSystemEnum;
 import com.bridgelabz.parkingsystem.service.VehicleParkingSystem;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,7 +26,7 @@ public class VehicleParkingTest {
     public void givenVehicle_whenIsPark_ItShouldReturnTrue() {
 
         try {
-            boolean isParked = parkingSystem.parkTheVehicle(vehicle[0], null);
+            boolean isParked = parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
             Assert.assertTrue(isParked);
         } catch (ParkingSystemException e) {
         }
@@ -35,8 +36,8 @@ public class VehicleParkingTest {
     @Test
     public void givenSameVehicle_whenIsNotPark_ItShouldThrowException() {
         try {
-            parkingSystem.parkTheVehicle(vehicle[0], null);
-            boolean isParked = parkingSystem.parkTheVehicle(vehicle[0], null);
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
+            boolean isParked = parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
             Assert.assertFalse(isParked);
         } catch (ParkingSystemException e) {
         }
@@ -47,7 +48,7 @@ public class VehicleParkingTest {
     public void givenParkedVehicle_whenIsUnParked_itShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[1], null);
+            parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
             boolean vehicle = parkingSystem.unParkTheVehicle(this.vehicle[1]);
             Assert.assertTrue(vehicle);
         } catch (ParkingSystemException e) {
@@ -69,7 +70,7 @@ public class VehicleParkingTest {
     public void givenVehicle_whenItsNotFound_itShouldReturnFalse() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0], null);
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
             boolean vehicleParked = parkingSystem.isVehicleParked(new Object());
             Assert.assertFalse(vehicleParked);
         } catch (ParkingSystemException e) {
@@ -81,7 +82,7 @@ public class VehicleParkingTest {
     public void whenParkingLotFull_itShouldThrowException() {
         try {
             for (int i = 0; i <= vehicle.length; i++)
-                parkingSystem.parkTheVehicle(vehicle[i], null);
+                parkingSystem.parkTheVehicle(vehicle[i], ParkingSystemEnum.TypeOfVehicle.ND);
         } catch (ParkingSystemException e) {
         }
         boolean parkingFull = new ParkingLotOwner().isParkingFull();
@@ -91,10 +92,9 @@ public class VehicleParkingTest {
     // Parking Slot Is Full OR Not For Airport Security
     @Test
     public void whenParkingLotFull_itShouldKnowTheAirportSecurity() {
-
         try {
             for (int i = 0; i <= vehicle.length; i++) {
-                parkingSystem.parkTheVehicle(vehicle[i], null);
+                parkingSystem.parkTheVehicle(vehicle[i], ParkingSystemEnum.TypeOfVehicle.ND);
             }
         } catch (ParkingSystemException e) {
         }
@@ -107,7 +107,7 @@ public class VehicleParkingTest {
     public void whenUnParkTheCar_parkingLotHasSpaceAgain_itShouldKnowTheAirportSecurity() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0], null);
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
             parkingSystem.unParkTheVehicle(vehicle[0]);
             boolean parkingFull = new AirportSecuritySystem().isParkingFull();
             Assert.assertFalse(parkingFull);
@@ -120,9 +120,9 @@ public class VehicleParkingTest {
     public void givenParkingPosition_whenVehicleIsParked_ShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(this.vehicle[0], null);
+            parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
             int vehicleKey = parkingSystem.getVehicleKey(this.vehicle[0]);
-            Assert.assertEquals(0,vehicleKey);
+            Assert.assertEquals(0, vehicleKey);
         } catch (ParkingSystemException e) {
         }
     }
@@ -132,8 +132,8 @@ public class VehicleParkingTest {
     public void givenVehicle_whenVehicleIsFound_ShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0], null);
-            parkingSystem.parkTheVehicle(vehicle[1], null);
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
+            parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
             boolean vehicleParked = parkingSystem.isVehicleParked(vehicle[1]);
             Assert.assertTrue(vehicleParked);
         } catch (ParkingSystemException e) {
@@ -145,7 +145,7 @@ public class VehicleParkingTest {
     public void givenVehicleAndParkedTime_whenVehicleIsParked_ShouldReturnTrue() {
 
         try {
-            parkingSystem.parkTheVehicle(vehicle[0], null);
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
             String timeAndDate = new VehicleParkingSystem().getTimeAndDate();
             parkingSystem.unParkTheVehicle(vehicle[0]);
             Assert.assertEquals(timeAndDate, new ParkingLotOwner().getDateAndTime());
@@ -158,8 +158,8 @@ public class VehicleParkingTest {
     public void givenVehicleList_whenVehicleParkedEvenly_ShouldReturnTrue() {
 
         try {
-            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], null);
-            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[1], null);
+            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
+            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
             Assert.assertEquals(vehicle, vehicle1);
         } catch (ParkingSystemException e) {
         }
@@ -170,11 +170,23 @@ public class VehicleParkingTest {
     public void givenHandicapDriverVehicle_whenVehicleParkedNearestPlace_ShouldReturnTrue() {
 
         try {
-            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], true);
-            parkingSystem.parkTheVehicle(this.vehicle[1], null);
-            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], true);
-            parkingSystem.parkTheVehicle(this.vehicle[3], null);
-            parkingSystem.parkTheVehicle(this.vehicle[4], null);
+            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfVehicle.HD);
+            parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
+            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], ParkingSystemEnum.TypeOfVehicle.HD);
+            parkingSystem.parkTheVehicle(this.vehicle[3], ParkingSystemEnum.TypeOfVehicle.ND);
+            Assert.assertEquals(vehicle, vehicle1);
+        } catch (ParkingSystemException e) {
+        }
+    }
+
+    // Park The Large Vehicle Where The Free Space Available
+    @Test
+    public void givenLargeVehicle_whenLargeVehicleParked_ItShouldReturnTrue() {
+        try {
+            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfVehicle.LCD);
+            parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
+            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], ParkingSystemEnum.TypeOfVehicle.LCD);
+            parkingSystem.parkTheVehicle(this.vehicle[3], ParkingSystemEnum.TypeOfVehicle.ND);
             Assert.assertEquals(vehicle, vehicle1);
         } catch (ParkingSystemException e) {
         }
