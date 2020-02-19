@@ -89,7 +89,7 @@ public class VehicleParkingSystem {
         return slotNo;
     }
 
-    public boolean unParkTheVehicle(Object vehicle) throws ParkingSystemException {
+    public boolean unParkTheVehicle(VehicleDetails vehicle) throws ParkingSystemException {
 
         if (isVehicleParked(vehicle)) {
             int vehicleKey = this.getVehicleKey(vehicle);
@@ -103,7 +103,7 @@ public class VehicleParkingSystem {
         throw new ParkingSystemException("Vehicle_Is_Not_Found");
     }
 
-    public boolean isVehicleParked(Object vehicle) {
+    public boolean isVehicleParked(VehicleDetails vehicle) {
 
         try {
             int vehicleKey = this.getVehicleKey(vehicle);
@@ -116,7 +116,7 @@ public class VehicleParkingSystem {
         return false;
     }
 
-    public int getVehicleKey(Object vehicle) throws ParkingSystemException {
+    public int getVehicleKey(VehicleDetails vehicle) throws ParkingSystemException {
         try {
             Integer vehicleKey = vehicleList.keySet()
                     .stream()
@@ -134,13 +134,23 @@ public class VehicleParkingSystem {
         return dateFormat.format(date);
     }
 
-    public List<VehicleDetails> getVehicleByAttribute(String vehicleAttribute) {
-        List<VehicleDetails> list = vehicleList.entrySet()
-                .stream()
-                .filter(value -> vehicleList.get(value.getKey()).toString().contains(vehicleAttribute))
-                .map(value -> value.getValue())
-                .collect(Collectors.toList());
-        return list;
+    public List<VehicleDetails> getVehicleByAttribute(String... vehicleAttribute) throws ParkingSystemException {
+        try {
+            List<VehicleDetails> list = vehicleList.entrySet()
+                    .stream()
+                    .filter(value -> {
+                        for (String value1 : vehicleAttribute) {
+                            if (vehicleList.get(value.getKey()).toString().contains(value1) == false)
+                                return false;
+                        }
+                        return true;
+                    })
+                    .map(value -> value.getValue())
+                    .collect(Collectors.toList());
+            return list;
+        } catch (IndexOutOfBoundsException i) {
+            throw new ParkingSystemException("Vehicle_Not_Found");
+        }
     }
 
     public void showList() {
