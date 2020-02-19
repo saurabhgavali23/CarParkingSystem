@@ -1,4 +1,7 @@
-package com.bridgelabz.parkingsystem.notifier;
+package com.bridgelabz.parkingsystem.service;
+
+import com.bridgelabz.parkingsystem.service.AirportSecuritySystem;
+import com.bridgelabz.parkingsystem.service.ParkingLotOwner;
 
 public class ParkingStatusNotifier {
 

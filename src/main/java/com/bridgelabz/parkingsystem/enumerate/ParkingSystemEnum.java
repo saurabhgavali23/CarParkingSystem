@@ -1,4 +1,4 @@
-package com.bridgelabz.parkingsystem.parkingenum;
+package com.bridgelabz.parkingsystem.enumerate;
 
 public class ParkingSystemEnum {
 

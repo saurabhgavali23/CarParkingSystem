@@ -1,14 +1,14 @@
 package com.parkingtest;
 
 import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
-import com.bridgelabz.parkingsystem.notifier.ParkingLotOwner;
-import com.bridgelabz.parkingsystem.parkingenum.ParkingSystemEnum;
+import com.bridgelabz.parkingsystem.service.ParkingLotOwner;
+import com.bridgelabz.parkingsystem.enumerate.ParkingSystemEnum;
 import com.bridgelabz.parkingsystem.service.VehicleDetails;
-import com.bridgelabz.parkingsystem.service.VehicleParkingSystem;
+import com.bridgelabz.parkingsystem.VehicleParkingSystem;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import com.bridgelabz.parkingsystem.notifier.AirportSecuritySystem;
+import com.bridgelabz.parkingsystem.service.AirportSecuritySystem;
 
 import java.util.List;
 
@@ -211,7 +211,7 @@ public class VehicleParkingTest {
         }
     }
 
-    // Park The Vehicle With Other Color
+    // Park The Vehicle With Wrong Color
     @Test
     public void givenVehicleWithOtherColor_whenIsNotFound_ItShouldThrowException() {
         List<VehicleDetails> list = null;
@@ -257,6 +257,21 @@ public class VehicleParkingTest {
         } catch (ParkingSystemException e) {
             Assert.assertEquals("Blue", list.get(0).color);
             Assert.assertEquals("Toyota", list.get(0).carModel);
+        }
+    }
+
+    // Park The Vehicle With BMW Model Name
+    @Test
+    public void givenVehicleWithBMWModelName_whenIsPark_ItShouldReturnTrue() {
+        try {
+            parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
+            vehicle[0].color = "White";
+            parkingSystem.parkTheVehicle(vehicle[2], ParkingSystemEnum.TypeOfVehicle.ND);
+            vehicle[2].color = "White";
+            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("White");
+            Assert.assertEquals("White", list.get(0).color);
+        } catch (ParkingSystemException e) {
         }
     }
 }

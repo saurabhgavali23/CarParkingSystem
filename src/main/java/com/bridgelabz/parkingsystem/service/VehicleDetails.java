@@ -1,5 +1,7 @@
 package com.bridgelabz.parkingsystem.service;
 
+import com.bridgelabz.parkingsystem.VehicleParkingSystem;
+
 public class VehicleDetails {
 
     VehicleParkingSystem parkingSystem = new VehicleParkingSystem();
