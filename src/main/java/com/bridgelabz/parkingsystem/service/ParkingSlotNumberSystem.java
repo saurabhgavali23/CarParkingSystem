@@ -53,19 +53,28 @@ public class ParkingSlotNumberSystem {
     }
 
     public int getSlotNumForLargeVehicleDriver() {
-        int slotNo;
+        int slotNo, secSlotNo = 0;
         if (this.count == totalSlot) {
             i = i + 1;
             j = 0;
             count = 0;
         }
         slotNo = i + ((parkingCapacity / totalSlot) * j);
-        LinkedList list = (LinkedList) obj[slotNo];
-        if (list.isEmpty())
+        list = (LinkedList) obj[slotNo];
+        secSlotNo = (slotNo + 1);
+        if (list.isEmpty() && this.checkEmptySlot(secSlotNo)) {
             return slotNo;
+        }
         j = j + 1;
         count = count + 1;
-        slotNo = this.getSlotNumForNormalDriver();
+        slotNo = this.getSlotNumForLargeVehicleDriver();
         return slotNo;
+    }
+
+    private boolean checkEmptySlot(int secSlotNo) {
+        list = (LinkedList) obj[secSlotNo];
+        if (list.isEmpty())
+            return true;
+        return false;
     }
 }

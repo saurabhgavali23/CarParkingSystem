@@ -22,7 +22,7 @@ public class VehicleParkingTest {
 
     @Before
     public void setUp() {
-        parkingSlotNumSystem = new ParkingSlotNumberSystem(10,2);
+        parkingSlotNumSystem = new ParkingSlotNumberSystem(10, 2);
         parkingSystem = new VehicleParkingSystem();
         for (int i = 0; i < vehicle.length; i++)
             vehicle[i] = new VehicleDetails();
@@ -169,8 +169,8 @@ public class VehicleParkingTest {
             int vehicleKey = parkingSystem.getVehicleKey(this.vehicle[0]);
             parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
             int vehicleKey1 = parkingSystem.getVehicleKey(this.vehicle[1]);
-            Assert.assertEquals(0,vehicleKey);
-            Assert.assertEquals(5,vehicleKey1);
+            Assert.assertEquals(0, vehicleKey);
+            Assert.assertEquals(5, vehicleKey1);
         } catch (ParkingSystemException e) {
         }
     }
@@ -193,10 +193,10 @@ public class VehicleParkingTest {
     @Test
     public void givenLargeVehicle_whenLargeVehicleParked_ItShouldReturnTrue() {
         try {
-            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfVehicle.LCD);
-            parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
-            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], ParkingSystemEnum.TypeOfVehicle.LCD);
             parkingSystem.parkTheVehicle(this.vehicle[3], ParkingSystemEnum.TypeOfVehicle.ND);
+            parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
+            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfVehicle.LCD);
+            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], ParkingSystemEnum.TypeOfVehicle.LCD);
             parkingSystem.showList();
             Assert.assertEquals(vehicle, vehicle1);
         } catch (ParkingSystemException e) {
