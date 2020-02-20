@@ -30,7 +30,6 @@ public class VehicleParkingSystem {
 
         if (this.vehicleList.size() < parkingSlotNumSystem.parkingCapacity) {
             slot = driverStatus.getSlotNum(parkingSlotNumSystem);
-
             this.vehicleList.put(slot, vehicle);
             parkingSlotNumSystem.list = (LinkedList) parkingSlotNumSystem.obj[slot];
             parkingSlotNumSystem.list.add(this.vehicleList.get(slot));
@@ -88,21 +87,24 @@ public class VehicleParkingSystem {
 
     public List<VehicleDetails> getVehicleByAttribute(String... vehicleAttribute) throws ParkingSystemException {
         try {
-            List<VehicleDetails> list = vehicleList.entrySet()
+            List<VehicleDetails> list;
+            list = vehicleList.entrySet()
                     .stream()
-                    .filter(value -> {
-                        for (String value1 : vehicleAttribute) {
-                            if (vehicleList.get(value.getKey()).toString().contains(value1) == false)
-                                return false;
-                        }
-                        return true;
-                    })
+                    .filter(value -> this.isValuePresent(value, vehicleAttribute))
                     .map(value -> value.getValue())
                     .collect(Collectors.toList());
             return list;
         } catch (IndexOutOfBoundsException i) {
             throw new ParkingSystemException("Vehicle_Not_Found");
         }
+    }
+
+    private boolean isValuePresent(Map.Entry<Integer, VehicleDetails> list, String... vehicleAttribute) {
+        for (String value1 : vehicleAttribute) {
+            if (list.toString().contains(value1) == false)
+                return false;
+        }
+        return true;
     }
 
     public void showList() {

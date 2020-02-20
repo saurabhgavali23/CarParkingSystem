@@ -197,7 +197,6 @@ public class VehicleParkingTest {
             parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
             boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfVehicle.LCD);
             boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], ParkingSystemEnum.TypeOfVehicle.LCD);
-            parkingSystem.showList();
             Assert.assertEquals(vehicle, vehicle1);
         } catch (ParkingSystemException e) {
         }
