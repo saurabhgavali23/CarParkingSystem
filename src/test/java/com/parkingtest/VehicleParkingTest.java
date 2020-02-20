@@ -266,4 +266,35 @@ public class VehicleParkingTest {
             Assert.assertEquals("Toyota", list.get(0).carModel);
         }
     }
+
+    // Park The Vehicle With Model Name BMW
+    @Test
+    public void givenVehicleWithModelNameBMW_whenIsPark_ItShouldReturnTrue() {
+        try {
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
+            vehicle[0].carModel = "BMW";
+            parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
+            vehicle[1].carModel = "BMW";
+            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("BMW");
+            Assert.assertEquals("BMW", list.get(0).carModel);
+            Assert.assertEquals("BMW", list.get(1).carModel);
+        } catch (ParkingSystemException e) {
+        }
+    }
+
+    // Park The Vehicle With Wrong Model Name
+    @Test
+    public void givenVehicleWithWrongModelName_whenIsPark_ItShouldThrowException() {
+        List<VehicleDetails> list = null;
+        try {
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
+            vehicle[0].carModel = "BMW";
+            parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
+            vehicle[1].carModel = "BMW";
+            list = parkingSystem.getVehicleByAttribute("SUV");
+        } catch (ParkingSystemException e) {
+            Assert.assertEquals("BMW", list.get(0).carModel);
+            Assert.assertEquals("BMW", list.get(1).carModel);
+        }
+    }
 }
