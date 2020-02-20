@@ -1,22 +1,22 @@
-package com.parkingtest.enumerate;
+package com.bridgelabz.parkingsystem.enumerate;
 
-import com.parkingtest.service.ParkingSlotNumberSystem;
+import com.bridgelabz.parkingsystem.service.ParkingSlotNumberSystem;
 
 public class ParkingSystemEnum {
 
-    public enum TypeOfVehicle {
+    public enum TypeOfDriver {
 
-        HD {
+        HANDICAP_DRIVER {
             @Override
             public int getSlotNum(ParkingSlotNumberSystem parkingSlotNumSystem) {
                 return parkingSlotNumSystem.getSlotNumForHandicapDriver();
             }
-        }, ND {
+        }, NORMAL_DRIVER {
             @Override
             public int getSlotNum(ParkingSlotNumberSystem parkingSlotNumSystem) {
                 return parkingSlotNumSystem.getSlotNumForNormalDriver();
             }
-        }, LCD {
+        }, LARGE_CAR_DRIVER {
             @Override
             public int getSlotNum(ParkingSlotNumberSystem parkingSlotNumSystem) {
                 return parkingSlotNumSystem.getSlotNumForLargeVehicleDriver();

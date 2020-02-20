@@ -1,6 +1,6 @@
-package com.parkingtest.service;
+package com.bridgelabz.parkingsystem.service;
 
-import com.parkingtest.VehicleParkingSystem;
+import com.bridgelabz.parkingsystem.VehicleParkingSystem;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package com.parkingtest.service;
+package com.bridgelabz.parkingsystem.service;
 
 import java.time.LocalDateTime;
 

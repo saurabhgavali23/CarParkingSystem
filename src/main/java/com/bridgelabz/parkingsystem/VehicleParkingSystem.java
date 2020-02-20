@@ -1,11 +1,11 @@
-package com.parkingtest;
+package com.bridgelabz.parkingsystem;
 
-import com.parkingtest.service.ParkingLotOwner;
-import com.parkingtest.service.ParkingSlotNumberSystem;
-import com.parkingtest.service.ParkingStatusNotifier;
-import com.parkingtest.exception.ParkingSystemException;
-import com.parkingtest.enumerate.ParkingSystemEnum;
-import com.parkingtest.service.VehicleDetails;
+import com.bridgelabz.parkingsystem.enumerate.ParkingSystemEnum;
+import com.bridgelabz.parkingsystem.service.ParkingLotOwner;
+import com.bridgelabz.parkingsystem.service.ParkingSlotNumberSystem;
+import com.bridgelabz.parkingsystem.service.ParkingStatusNotifier;
+import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
+import com.bridgelabz.parkingsystem.service.VehicleDetails;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -24,10 +24,10 @@ public class VehicleParkingSystem {
         this.parkingSlotNumSystem = new ParkingSlotNumberSystem();
     }
 
-    public boolean parkTheVehicle(VehicleDetails vehicle, ParkingSystemEnum.TypeOfVehicle driverStatus) throws ParkingSystemException {
+    public boolean parkTheVehicle(VehicleDetails vehicle, ParkingSystemEnum.TypeOfDriver driverStatus) throws ParkingSystemException {
         int slot = 0;
         if (isVehicleParked(vehicle) == true)
-            throw new ParkingSystemException("Vehicle_Is_Already_Park");
+            throw new ParkingSystemException(ParkingSystemException.ExceptionType.VEHICLE_IS_ALREADY_PARKED, "Vehicle_Is_Already_Parked");
 
         if (this.vehicleList.size() < parkingSlotNumSystem.parkingCapacity) {
             slot = driverStatus.getSlotNum(parkingSlotNumSystem);
@@ -38,7 +38,7 @@ public class VehicleParkingSystem {
             return true;
         }
         parkingStatusNotifier.setParkingStatus(true);
-        throw new ParkingSystemException("Parking_Slot_Is_Full");
+        throw new ParkingSystemException(ParkingSystemException.ExceptionType.PARKING_SLOT_IS_FULL, "Parking_Slot_Is_Full");
     }
 
     public boolean unParkTheVehicle(VehicleDetails vehicle) throws ParkingSystemException {
@@ -52,7 +52,7 @@ public class VehicleParkingSystem {
                 return true;
             }
         }
-        throw new ParkingSystemException("Vehicle_Is_Not_Found");
+        throw new ParkingSystemException(ParkingSystemException.ExceptionType.VEHICLE_NOT_FOUND, "Vehicle_Is_Not_Found");
     }
 
     public boolean isVehicleParked(VehicleDetails vehicle) {
@@ -76,7 +76,7 @@ public class VehicleParkingSystem {
                     .findFirst().get();
             return vehicleKey;
         } catch (NoSuchElementException e) {
-            throw new ParkingSystemException("No_Vehicle_Found");
+            throw new ParkingSystemException(ParkingSystemException.ExceptionType.VEHICLE_NOT_FOUND, "No_Vehicle_Found");
         }
     }
 
@@ -95,7 +95,7 @@ public class VehicleParkingSystem {
                     .collect(Collectors.toList());
             return list;
         } catch (IndexOutOfBoundsException i) {
-            throw new ParkingSystemException("Vehicle_Not_Found");
+            throw new ParkingSystemException(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND, "Vehicle_Not_Found");
         }
     }
 
@@ -112,34 +112,12 @@ public class VehicleParkingSystem {
             List<VehicleDetails> list;
             list = vehicleList.entrySet()
                     .stream()
-                    .filter(value -> this.getBetweenTime(minutes))
+                    .filter(value -> vehicleList.get(value.getKey()).dateAndTime.compareTo(LocalDateTime.now().minusMinutes(minutes)) >= 0)
                     .map(value -> value.getValue())
                     .collect(Collectors.toList());
             return list;
         } catch (IndexOutOfBoundsException i) {
-            throw new ParkingSystemException("Vehicle_Not_Found");
-        }
-    }
-
-    public boolean getBetweenTime(int minutes){
-        LocalDateTime beforeTime = ParkingLotOwner.parkedDateAndTime;
-        LocalDateTime lastTime = beforeTime.plusMinutes(minutes);
-        Duration duration = Duration.between(beforeTime,lastTime);
-        if (duration.toMinutes()<=30)
-            return true;
-        return false;
-    }
-
-    public void showList() {
-
-        System.out.println("Capacity :" + parkingSlotNumSystem.parkingCapacity + "  Lots :" + parkingSlotNumSystem.totalSlot + "\n");
-
-        for (int i = 0; i < parkingSlotNumSystem.obj.length; i++) {
-            parkingSlotNumSystem.list = (LinkedList) parkingSlotNumSystem.obj[i];
-
-            System.out.print("Slot No :" + (i + 1) + ":=>");
-            System.out.print(parkingSlotNumSystem.list);
-            System.out.println();
+            throw new ParkingSystemException(ParkingSystemException.ExceptionType.VEHICLE_NOT_FOUND, "Vehicle_Not_Found");
         }
     }
 }
