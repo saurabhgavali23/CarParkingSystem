@@ -1,11 +1,13 @@
-package com.bridgelabz.parkingsystem.service;
+package com.parkingtest.service;
 
-import com.bridgelabz.parkingsystem.VehicleParkingSystem;
+import com.parkingtest.VehicleParkingSystem;
+
+import java.time.LocalDateTime;
 
 public class VehicleDetails {
 
     VehicleParkingSystem parkingSystem = new VehicleParkingSystem();
-    String dateAndTime = parkingSystem.getTimeAndDate();
+    public LocalDateTime dateAndTime = parkingSystem.getTimeAndDate();
     public String color;
     public String name;
     public String carModel;

@@ -1,18 +1,17 @@
 package com.parkingtest;
 
-import com.bridgelabz.parkingsystem.service.ParkingSlotNumberSystem;
-import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
-import com.bridgelabz.parkingsystem.service.ParkingLotOwner;
-import com.bridgelabz.parkingsystem.enumerate.ParkingSystemEnum;
-import com.bridgelabz.parkingsystem.service.VehicleDetails;
-import com.bridgelabz.parkingsystem.VehicleParkingSystem;
+import com.parkingtest.service.ParkingSlotNumberSystem;
+import com.parkingtest.exception.ParkingSystemException;
+import com.parkingtest.service.ParkingLotOwner;
+import com.parkingtest.enumerate.ParkingSystemEnum;
+import com.parkingtest.service.VehicleDetails;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import com.bridgelabz.parkingsystem.service.AirportSecuritySystem;
+import com.parkingtest.service.AirportSecuritySystem;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
 
 public class VehicleParkingTest {
 
@@ -153,7 +152,7 @@ public class VehicleParkingTest {
 
         try {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
-            String timeAndDate = new VehicleParkingSystem().getTimeAndDate();
+            LocalDateTime timeAndDate = new VehicleParkingSystem().getTimeAndDate();
             parkingSystem.unParkTheVehicle(vehicle[0]);
             Assert.assertEquals(timeAndDate, new ParkingLotOwner().getDateAndTime());
         } catch (ParkingSystemException e) {
@@ -210,9 +209,9 @@ public class VehicleParkingTest {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
             vehicle[0].color = "White";
             parkingSystem.parkTheVehicle(vehicle[2], ParkingSystemEnum.TypeOfVehicle.ND);
-            vehicle[2].color = "White";
-            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("White");
-            Assert.assertEquals("White", list.get(0).color);
+            vehicle[2].color = "white";
+            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("white");
+            Assert.assertEquals("white", list.get(0).color);
         } catch (ParkingSystemException e) {
         }
     }
@@ -224,10 +223,10 @@ public class VehicleParkingTest {
         try {
             parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
-            vehicle[0].color = "White";
+            vehicle[0].color = "white";
             list = parkingSystem.getVehicleByAttribute("Red");
         } catch (ParkingSystemException e) {
-            Assert.assertEquals("White", list.get(0).color);
+            Assert.assertEquals("white", list.get(0).color);
         }
     }
 
@@ -237,13 +236,13 @@ public class VehicleParkingTest {
         try {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
             parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
-            vehicle[1].color = "Blue";
-            vehicle[1].carModel = "Toyota";
+            vehicle[1].color = "blue";
+            vehicle[1].carModel = "toyota";
             vehicle[1].name = "John";
             vehicle[1].numPlate = "MH-12_AB-6251";
-            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("Blue", "Toyota");
-            Assert.assertEquals("Blue", list.get(0).color);
-            Assert.assertEquals("Toyota", list.get(0).carModel);
+            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("blue", "toyota");
+            Assert.assertEquals("blue", list.get(0).color);
+            Assert.assertEquals("toyota", list.get(0).carModel);
         } catch (ParkingSystemException e) {
         }
     }
@@ -271,12 +270,12 @@ public class VehicleParkingTest {
     public void givenVehicleWithModelNameBMW_whenIsPark_ItShouldReturnTrue() {
         try {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
-            vehicle[0].carModel = "BMW";
+            vehicle[0].carModel = "bmw";
             parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
-            vehicle[1].carModel = "BMW";
-            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("BMW");
-            Assert.assertEquals("BMW", list.get(0).carModel);
-            Assert.assertEquals("BMW", list.get(1).carModel);
+            vehicle[1].carModel = "bmw";
+            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("bmw");
+            Assert.assertEquals("bmw", list.get(0).carModel);
+            Assert.assertEquals("bmw", list.get(1).carModel);
         } catch (ParkingSystemException e) {
         }
     }
@@ -294,6 +293,18 @@ public class VehicleParkingTest {
         } catch (ParkingSystemException e) {
             Assert.assertEquals("BMW", list.get(0).carModel);
             Assert.assertEquals("BMW", list.get(1).carModel);
+        }
+    }
+
+    // Find The Vehicle Was Parked Last 30 Minutes
+    @Test
+    public void givenVehicle_whenIsParkedLast30Minutes_ItShouldReturnTrue() {
+        try {
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
+            parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
+            List<VehicleDetails> list = parkingSystem.getVehicleByLastTime(30);
+            Assert.assertEquals(list.get(0).dateAndTime.minusMinutes(30), parkingSystem.getTimeAndDate().plusMonths(30));
+        } catch (ParkingSystemException e) {
         }
     }
 }

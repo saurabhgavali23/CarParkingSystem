@@ -1,7 +1,6 @@
-package com.bridgelabz.parkingsystem.service;
+package com.parkingtest.service;
 
-import com.bridgelabz.parkingsystem.service.AirportSecuritySystem;
-import com.bridgelabz.parkingsystem.service.ParkingLotOwner;
+import java.time.LocalDateTime;
 
 public class ParkingStatusNotifier {
 
@@ -17,7 +16,7 @@ public class ParkingStatusNotifier {
         securitySystem.parkingIsFull(status);
     }
 
-    public void setParkedVehicleDateAndTime(String dateAndTime) {
+    public void setParkedVehicleDateAndTime(LocalDateTime dateAndTime) {
         lotOwner.setDateAndTime(dateAndTime);
     }
 }

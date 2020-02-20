@@ -1,6 +1,6 @@
-package com.bridgelabz.parkingsystem.enumerate;
+package com.parkingtest.enumerate;
 
-import com.bridgelabz.parkingsystem.service.ParkingSlotNumberSystem;
+import com.parkingtest.service.ParkingSlotNumberSystem;
 
 public class ParkingSystemEnum {
 

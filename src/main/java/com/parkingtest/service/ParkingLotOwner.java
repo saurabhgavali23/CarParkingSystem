@@ -1,9 +1,11 @@
-package com.bridgelabz.parkingsystem.service;
+package com.parkingtest.service;
+
+import java.time.LocalDateTime;
 
 public class ParkingLotOwner implements ParkingSystem {
 
     public static boolean isParking = false;
-    public static String parkedDateAndTime;
+    public static LocalDateTime parkedDateAndTime;
 
     public void parkingIsFull(boolean status) {
         this.isParking = status;
@@ -13,11 +15,11 @@ public class ParkingLotOwner implements ParkingSystem {
         return this.isParking;
     }
 
-    public void setDateAndTime(String timeAndDate) {
+    public void setDateAndTime(LocalDateTime timeAndDate) {
         this.parkedDateAndTime = timeAndDate;
     }
 
-    public String getDateAndTime() {
+    public LocalDateTime getDateAndTime() {
         return parkedDateAndTime;
     }
 }

@@ -1,4 +1,4 @@
-package com.bridgelabz.parkingsystem.exception;
+package com.parkingtest.exception;
 
 public class ParkingSystemException extends Exception {
 

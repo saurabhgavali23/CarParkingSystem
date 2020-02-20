@@ -1,13 +1,14 @@
-package com.bridgelabz.parkingsystem;
+package com.parkingtest;
 
-import com.bridgelabz.parkingsystem.service.ParkingSlotNumberSystem;
-import com.bridgelabz.parkingsystem.service.ParkingStatusNotifier;
-import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
-import com.bridgelabz.parkingsystem.enumerate.ParkingSystemEnum;
-import com.bridgelabz.parkingsystem.service.VehicleDetails;
+import com.parkingtest.service.ParkingLotOwner;
+import com.parkingtest.service.ParkingSlotNumberSystem;
+import com.parkingtest.service.ParkingStatusNotifier;
+import com.parkingtest.exception.ParkingSystemException;
+import com.parkingtest.enumerate.ParkingSystemEnum;
+import com.parkingtest.service.VehicleDetails;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -79,10 +80,9 @@ public class VehicleParkingSystem {
         }
     }
 
-    public String getTimeAndDate() {
-        Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
-        return dateFormat.format(date);
+    public LocalDateTime getTimeAndDate() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        return localDateTime;
     }
 
     public List<VehicleDetails> getVehicleByAttribute(String... vehicleAttribute) throws ParkingSystemException {
@@ -101,10 +101,33 @@ public class VehicleParkingSystem {
 
     private boolean isValuePresent(Map.Entry<Integer, VehicleDetails> list, String... vehicleAttribute) {
         for (String value1 : vehicleAttribute) {
-            if (list.toString().contains(value1) == false)
+            if (list.toString().contains(value1.toLowerCase()) == false)
                 return false;
         }
         return true;
+    }
+
+    public List<VehicleDetails> getVehicleByLastTime(int minutes) throws ParkingSystemException {
+        try {
+            List<VehicleDetails> list;
+            list = vehicleList.entrySet()
+                    .stream()
+                    .filter(value -> this.getBetweenTime(minutes))
+                    .map(value -> value.getValue())
+                    .collect(Collectors.toList());
+            return list;
+        } catch (IndexOutOfBoundsException i) {
+            throw new ParkingSystemException("Vehicle_Not_Found");
+        }
+    }
+
+    public boolean getBetweenTime(int minutes){
+        LocalDateTime beforeTime = ParkingLotOwner.parkedDateAndTime;
+        LocalDateTime lastTime = beforeTime.plusMinutes(minutes);
+        Duration duration = Duration.between(beforeTime,lastTime);
+        if (duration.toMinutes()<=30)
+            return true;
+        return false;
     }
 
     public void showList() {

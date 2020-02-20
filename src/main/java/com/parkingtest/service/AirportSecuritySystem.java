@@ -1,4 +1,4 @@
-package com.bridgelabz.parkingsystem.service;
+package com.parkingtest.service;
 
 public class AirportSecuritySystem implements ParkingSystem {
 
