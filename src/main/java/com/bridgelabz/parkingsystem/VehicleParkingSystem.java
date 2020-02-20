@@ -1,5 +1,6 @@
 package com.bridgelabz.parkingsystem;
 
+import com.bridgelabz.parkingsystem.service.ParkingSlotNumberSystem;
 import com.bridgelabz.parkingsystem.service.ParkingStatusNotifier;
 import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
 import com.bridgelabz.parkingsystem.enumerate.ParkingSystemEnum;
@@ -12,28 +13,14 @@ import java.util.stream.Collectors;
 
 public class VehicleParkingSystem {
 
-    private int totalSlot;
-    private int parkingCapacity;
-    private int i = 0;
-    private int j = 0;
-    private int count = 0;
     Map<Integer, VehicleDetails> vehicleList;
-    Object obj[] = null;
     ParkingStatusNotifier parkingStatusNotifier = null;
-
-    public VehicleParkingSystem(int capacity, int totalSlot) {
-        this.parkingCapacity = capacity;
-        this.totalSlot = totalSlot;
-        this.vehicleList = new HashMap<>();
-        this.parkingStatusNotifier = new ParkingStatusNotifier();
-
-        obj = new Object[this.parkingCapacity];
-        for (int i = 0; i < this.parkingCapacity; i++) {
-            obj[i] = new LinkedList();
-        }
-    }
+    ParkingSlotNumberSystem parkingSlotNumSystem = null;
 
     public VehicleParkingSystem() {
+        this.vehicleList = new HashMap<>();
+        this.parkingStatusNotifier = new ParkingStatusNotifier();
+        this.parkingSlotNumSystem = new ParkingSlotNumberSystem();
     }
 
     public boolean parkTheVehicle(VehicleDetails vehicle, ParkingSystemEnum.TypeOfVehicle driverStatus) throws ParkingSystemException {
@@ -41,19 +28,12 @@ public class VehicleParkingSystem {
         if (isVehicleParked(vehicle) == true)
             throw new ParkingSystemException("Vehicle_Is_Already_Park");
 
-        if (this.vehicleList.size() < this.parkingCapacity) {
-            if (driverStatus.equals(ParkingSystemEnum.TypeOfVehicle.HD))
-                slot = this.getSlotNoForHandicapDriver();
-
-            if (driverStatus.equals(ParkingSystemEnum.TypeOfVehicle.ND))
-                slot = this.getTheParkingSlot();
-
-            if (driverStatus.equals(ParkingSystemEnum.TypeOfVehicle.LCD))
-                slot = this.getTheParkingSlot();
+        if (this.vehicleList.size() < parkingSlotNumSystem.parkingCapacity) {
+            slot = driverStatus.getSlotNum(parkingSlotNumSystem);
 
             this.vehicleList.put(slot, vehicle);
-            LinkedList list = (LinkedList) obj[slot];
-            list.add(this.vehicleList.get(slot));
+            parkingSlotNumSystem.list = (LinkedList) parkingSlotNumSystem.obj[slot];
+            parkingSlotNumSystem.list.add(this.vehicleList.get(slot));
             parkingStatusNotifier.setParkedVehicleDateAndTime(this.getTimeAndDate());
             return true;
         }
@@ -61,42 +41,13 @@ public class VehicleParkingSystem {
         throw new ParkingSystemException("Parking_Slot_Is_Full");
     }
 
-    private int getSlotNoForHandicapDriver() {
-
-        for (int i = 0; i < parkingCapacity; i++) {
-            LinkedList list = (LinkedList) obj[i];
-            if (list.isEmpty()) {
-                int slotNo = i;
-                return slotNo;
-            }
-        }
-        return 0;
-    }
-
-    private int getTheParkingSlot() {
-        int slotNo;
-        if (count == totalSlot) {
-            i = i + 1;
-            j = 0;
-            count = 0;
-        }
-        slotNo = i + ((parkingCapacity / totalSlot) * j);
-        LinkedList list = (LinkedList) obj[slotNo];
-        if (list.isEmpty())
-            return slotNo;
-        j = j + 1;
-        count = count + 1;
-        slotNo = this.getTheParkingSlot();
-        return slotNo;
-    }
-
     public boolean unParkTheVehicle(VehicleDetails vehicle) throws ParkingSystemException {
 
         if (isVehicleParked(vehicle)) {
             int vehicleKey = this.getVehicleKey(vehicle);
-            LinkedList list = (LinkedList) obj[vehicleKey];
-            if (list.contains(vehicle)) {
-                list.remove(vehicle);
+            parkingSlotNumSystem.list = (LinkedList) parkingSlotNumSystem.obj[vehicleKey];
+            if (parkingSlotNumSystem.list.contains(vehicle)) {
+                parkingSlotNumSystem.list.remove(vehicle);
                 parkingStatusNotifier.setParkingStatusForFreeSpaceToAirPortSecurity(false);
                 return true;
             }
@@ -108,8 +59,8 @@ public class VehicleParkingSystem {
 
         try {
             int vehicleKey = this.getVehicleKey(vehicle);
-            LinkedList list = (LinkedList) obj[vehicleKey];
-            if (list.contains(vehicle)) {
+            parkingSlotNumSystem.list = (LinkedList) parkingSlotNumSystem.obj[vehicleKey];
+            if (parkingSlotNumSystem.list.contains(vehicle)) {
                 return true;
             }
         } catch (ParkingSystemException e) {
@@ -156,13 +107,13 @@ public class VehicleParkingSystem {
 
     public void showList() {
 
-        System.out.println("Capacity :" + parkingCapacity + "  Lots :" + totalSlot + "\n");
+        System.out.println("Capacity :" + parkingSlotNumSystem.parkingCapacity + "  Lots :" + parkingSlotNumSystem.totalSlot + "\n");
 
-        for (int i = 0; i < obj.length; i++) {
-            LinkedList list = (LinkedList) obj[i];
+        for (int i = 0; i < parkingSlotNumSystem.obj.length; i++) {
+            parkingSlotNumSystem.list = (LinkedList) parkingSlotNumSystem.obj[i];
 
             System.out.print("Slot No :" + (i + 1) + ":=>");
-            System.out.print(list);
+            System.out.print(parkingSlotNumSystem.list);
             System.out.println();
         }
     }

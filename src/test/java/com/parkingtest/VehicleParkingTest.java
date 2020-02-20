@@ -1,5 +1,6 @@
 package com.parkingtest;
 
+import com.bridgelabz.parkingsystem.service.ParkingSlotNumberSystem;
 import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
 import com.bridgelabz.parkingsystem.service.ParkingLotOwner;
 import com.bridgelabz.parkingsystem.enumerate.ParkingSystemEnum;
@@ -16,11 +17,13 @@ import java.util.List;
 public class VehicleParkingTest {
 
     VehicleParkingSystem parkingSystem = null;
+    ParkingSlotNumberSystem parkingSlotNumSystem = null;
     VehicleDetails[] vehicle = new VehicleDetails[11];
 
     @Before
     public void setUp() {
-        parkingSystem = new VehicleParkingSystem(10, 2);
+        parkingSlotNumSystem = new ParkingSlotNumberSystem(10,2);
+        parkingSystem = new VehicleParkingSystem();
         for (int i = 0; i < vehicle.length; i++)
             vehicle[i] = new VehicleDetails();
     }
@@ -31,6 +34,7 @@ public class VehicleParkingTest {
 
         try {
             boolean isParked = parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
+            parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
             Assert.assertTrue(isParked);
         } catch (ParkingSystemException e) {
         }
@@ -85,7 +89,7 @@ public class VehicleParkingTest {
     @Test
     public void whenParkingLotFull_itShouldThrowException() {
         try {
-            for (int i = 0; i <= vehicle.length; i++)
+            for (int i = 0; i < vehicle.length; i++)
                 parkingSystem.parkTheVehicle(vehicle[i], ParkingSystemEnum.TypeOfVehicle.ND);
         } catch (ParkingSystemException e) {
         }
@@ -97,9 +101,8 @@ public class VehicleParkingTest {
     @Test
     public void whenParkingLotFull_itShouldKnowTheAirportSecurity() {
         try {
-            for (int i = 0; i <= vehicle.length; i++) {
+            for (int i = 0; i <= vehicle.length; i++)
                 parkingSystem.parkTheVehicle(vehicle[i], ParkingSystemEnum.TypeOfVehicle.ND);
-            }
         } catch (ParkingSystemException e) {
         }
         boolean parkingFull = new AirportSecuritySystem().isParkingFull();
@@ -162,9 +165,12 @@ public class VehicleParkingTest {
     public void givenVehicleList_whenVehicleParkedEvenly_ShouldReturnTrue() {
 
         try {
-            boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
-            boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
-            Assert.assertEquals(vehicle, vehicle1);
+            parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
+            int vehicleKey = parkingSystem.getVehicleKey(this.vehicle[0]);
+            parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
+            int vehicleKey1 = parkingSystem.getVehicleKey(this.vehicle[1]);
+            Assert.assertEquals(0,vehicleKey);
+            Assert.assertEquals(5,vehicleKey1);
         } catch (ParkingSystemException e) {
         }
     }
@@ -191,6 +197,7 @@ public class VehicleParkingTest {
             parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
             boolean vehicle1 = parkingSystem.parkTheVehicle(this.vehicle[2], ParkingSystemEnum.TypeOfVehicle.LCD);
             parkingSystem.parkTheVehicle(this.vehicle[3], ParkingSystemEnum.TypeOfVehicle.ND);
+            parkingSystem.showList();
             Assert.assertEquals(vehicle, vehicle1);
         } catch (ParkingSystemException e) {
         }
@@ -257,21 +264,6 @@ public class VehicleParkingTest {
         } catch (ParkingSystemException e) {
             Assert.assertEquals("Blue", list.get(0).color);
             Assert.assertEquals("Toyota", list.get(0).carModel);
-        }
-    }
-
-    // Park The Vehicle With BMW Model Name
-    @Test
-    public void givenVehicleWithBMWModelName_whenIsPark_ItShouldReturnTrue() {
-        try {
-            parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfVehicle.ND);
-            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfVehicle.ND);
-            vehicle[0].color = "White";
-            parkingSystem.parkTheVehicle(vehicle[2], ParkingSystemEnum.TypeOfVehicle.ND);
-            vehicle[2].color = "White";
-            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("White");
-            Assert.assertEquals("White", list.get(0).color);
-        } catch (ParkingSystemException e) {
         }
     }
 }

@@ -17,7 +17,7 @@ public class ParkingLotOwner implements ParkingSystem {
         this.parkedDateAndTime = timeAndDate;
     }
 
-    public String getDateAndTime(){
+    public String getDateAndTime() {
         return parkedDateAndTime;
     }
 }
