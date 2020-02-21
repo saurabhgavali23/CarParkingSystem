@@ -1,5 +1,7 @@
 package com.bridgelabz.parkingsystem.service;
 
+import com.bridgelabz.parkingsystem.entity.VehicleDetails;
+
 import java.util.LinkedList;
 
 public class ParkingSlotNumberSystem {
@@ -24,9 +26,16 @@ public class ParkingSlotNumberSystem {
         }
     }
 
+    public void getLotNum(VehicleDetails vehicle) {
+        vehicle.lotNum = count;
+    }
+
     public int getSlotNumForHandicapDriver() {
+        count = 0;
         for (int i = 0; i < parkingCapacity; i++) {
             list = (LinkedList) obj[i];
+            if (i >= (parkingCapacity / totalSlot))
+                count = 1;
             if (list.isEmpty()) {
                 int slotNo = i;
                 return slotNo;

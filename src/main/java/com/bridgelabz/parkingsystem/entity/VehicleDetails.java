@@ -1,4 +1,4 @@
-package com.bridgelabz.parkingsystem.service;
+package com.bridgelabz.parkingsystem.entity;
 
 import com.bridgelabz.parkingsystem.VehicleParkingSystem;
 
@@ -12,6 +12,7 @@ public class VehicleDetails {
     public String name;
     public String carModel;
     public String numPlate;
+    public int lotNum;
 
     public VehicleDetails() {
     }
@@ -20,11 +21,12 @@ public class VehicleDetails {
     public String toString() {
         return "VehicleDetails{" +
                 "parkingSystem=" + parkingSystem +
-                ", dateAndTime='" + dateAndTime + '\'' +
+                ", dateAndTime=" + dateAndTime +
                 ", color='" + color + '\'' +
                 ", name='" + name + '\'' +
                 ", carModel='" + carModel + '\'' +
                 ", numPlate='" + numPlate + '\'' +
+                ", lotNum='" + lotNum + '\'' +
                 '}';
     }
 }

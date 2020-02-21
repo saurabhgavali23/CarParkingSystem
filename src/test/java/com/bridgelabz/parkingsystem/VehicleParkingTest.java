@@ -4,7 +4,7 @@ import com.bridgelabz.parkingsystem.service.ParkingSlotNumberSystem;
 import com.bridgelabz.parkingsystem.exception.ParkingSystemException;
 import com.bridgelabz.parkingsystem.service.ParkingLotOwner;
 import com.bridgelabz.parkingsystem.enumerate.ParkingSystemEnum;
-import com.bridgelabz.parkingsystem.service.VehicleDetails;
+import com.bridgelabz.parkingsystem.entity.VehicleDetails;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class VehicleParkingTest {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
         } catch (ParkingSystemException e) {
-            Assert.assertEquals(ParkingSystemException.ExceptionType.VEHICLE_IS_ALREADY_PARKED,e.type);
+            Assert.assertEquals(ParkingSystemException.ExceptionType.VEHICLE_IS_ALREADY_PARKED, e.type);
         }
     }
 
@@ -70,7 +70,7 @@ public class VehicleParkingTest {
             parkingSystem.unParkTheVehicle(this.vehicle[1]);
             parkingSystem.unParkTheVehicle(this.vehicle[1]);
         } catch (ParkingSystemException e) {
-            Assert.assertEquals(ParkingSystemException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
+            Assert.assertEquals(ParkingSystemException.ExceptionType.VEHICLE_NOT_FOUND, e.type);
         }
     }
 
@@ -82,7 +82,7 @@ public class VehicleParkingTest {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             parkingSystem.isVehicleParked(new VehicleDetails());
         } catch (ParkingSystemException e) {
-            Assert.assertEquals(ParkingSystemException.ExceptionType.VEHICLE_NOT_FOUND,e.type);
+            Assert.assertEquals(ParkingSystemException.ExceptionType.VEHICLE_NOT_FOUND, e.type);
         }
     }
 
@@ -93,7 +93,7 @@ public class VehicleParkingTest {
             for (int i = 0; i < vehicle.length; i++)
                 parkingSystem.parkTheVehicle(vehicle[i], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
         } catch (ParkingSystemException e) {
-            Assert.assertEquals(ParkingSystemException.ExceptionType.PARKING_SLOT_IS_FULL,e.type);
+            Assert.assertEquals(ParkingSystemException.ExceptionType.PARKING_SLOT_IS_FULL, e.type);
         }
     }
 
@@ -104,7 +104,7 @@ public class VehicleParkingTest {
             for (int i = 0; i <= vehicle.length; i++)
                 parkingSystem.parkTheVehicle(vehicle[i], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
         } catch (ParkingSystemException e) {
-            Assert.assertEquals(ParkingSystemException.ExceptionType.PARKING_SLOT_IS_FULL,e.type);
+            Assert.assertEquals(ParkingSystemException.ExceptionType.PARKING_SLOT_IS_FULL, e.type);
         }
     }
 
@@ -226,7 +226,7 @@ public class VehicleParkingTest {
             vehicle[0].color = "white";
             parkingSystem.getVehicleByAttribute("Red");
         } catch (ParkingSystemException e) {
-            Assert.assertEquals(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND,e.type);
+            Assert.assertEquals(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND, e.type);
         }
     }
 
@@ -260,7 +260,7 @@ public class VehicleParkingTest {
             vehicle[1].numPlate = "MH-12_AB-6251";
             parkingSystem.getVehicleByAttribute("Blue", "Suzuki");
         } catch (ParkingSystemException e) {
-            Assert.assertEquals(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND,e.type);
+            Assert.assertEquals(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND, e.type);
         }
     }
 
@@ -289,7 +289,7 @@ public class VehicleParkingTest {
             vehicle[1].carModel = "BMW";
             parkingSystem.getVehicleByAttribute("SUV");
         } catch (ParkingSystemException e) {
-            Assert.assertEquals(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND,e.type);
+            Assert.assertEquals(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND, e.type);
         }
     }
 
@@ -302,7 +302,20 @@ public class VehicleParkingTest {
             parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             vehicle[1].dateAndTime = LocalDateTime.now().minusMinutes(33);
             List<VehicleDetails> list = parkingSystem.getVehicleByLastTime(30);
-            Assert.assertEquals(1,list.size());
+            Assert.assertEquals(1, list.size());
+        } catch (ParkingSystemException e) {
+        }
+    }
+
+    // Find Handicap Vehicle From Lot Num
+    @Test
+    public void givenLotNumber_whenHandicapVehicleIsParked_ShouldReturnTrue() {
+
+        try {
+            for (int i = 0; i < 10; i++)
+                parkingSystem.parkTheVehicle(vehicle[i], ParkingSystemEnum.TypeOfDriver.HANDICAP_DRIVER);
+            parkingSystem.getVehicleDetailsByLotNum(0, 1);
+            Assert.assertEquals(1, vehicle[5].lotNum);
         } catch (ParkingSystemException e) {
         }
     }
