@@ -143,17 +143,4 @@ public class VehicleParkingSystem {
     public Map<Integer, VehicleDetails> getVehicleDetails() {
         return vehicleList;
     }
-
-    public void showList() {
-
-        System.out.println("Capacity :" + parkingSlotNumSystem.parkingCapacity + "  Lots :" + parkingSlotNumSystem.totalSlot + "\n");
-
-        for (int i = 0; i < parkingSlotNumSystem.obj.length; i++) {
-            parkingSlotNumSystem.list = (LinkedList) parkingSlotNumSystem.obj[i];
-
-            System.out.print("Slot No :" + (i + 1) + ":=>");
-            System.out.print(parkingSlotNumSystem.list);
-            System.out.println();
-        }
-    }
 }
