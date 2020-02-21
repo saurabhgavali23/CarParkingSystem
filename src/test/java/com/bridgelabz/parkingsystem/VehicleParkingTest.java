@@ -12,6 +12,7 @@ import com.bridgelabz.parkingsystem.service.AirportSecuritySystem;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class VehicleParkingTest {
 
@@ -310,12 +311,31 @@ public class VehicleParkingTest {
     // Find Handicap Vehicle From Lot Num
     @Test
     public void givenLotNumber_whenHandicapVehicleIsParked_ShouldReturnTrue() {
-
         try {
             for (int i = 0; i < 10; i++)
                 parkingSystem.parkTheVehicle(vehicle[i], ParkingSystemEnum.TypeOfDriver.HANDICAP_DRIVER);
             parkingSystem.getVehicleDetailsByLotNum(0, 1);
             Assert.assertEquals(1, vehicle[5].lotNum);
+        } catch (ParkingSystemException e) {
+        }
+    }
+
+    // Get Parked Vehicle Details
+    @Test
+    public void givenVehicle_whenVehiclesAreParked_ShouldReturnTrue() {
+        try {
+            parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
+            vehicle[0].name="abc";
+            vehicle[0].carModel="suzuki";
+            vehicle[0].color="black";
+            vehicle[0].numPlate="mh-12 vc_2333";
+            parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
+            vehicle[0].name="xyz";
+            vehicle[0].carModel="suv";
+            vehicle[0].color="white";
+            vehicle[0].numPlate="mh-12 vc_2933";
+            Map<Integer, VehicleDetails> vehicleDetails = parkingSystem.getVehicleDetails();
+            Assert.assertEquals(vehicleDetails.get(0),vehicle[0]);
         } catch (ParkingSystemException e) {
         }
     }

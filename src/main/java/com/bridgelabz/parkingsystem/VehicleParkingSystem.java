@@ -139,4 +139,8 @@ public class VehicleParkingSystem {
                 return true;
         return false;
     }
+
+    public Map<Integer, VehicleDetails> getVehicleDetails() {
+        return vehicleList;
+    }
 }
