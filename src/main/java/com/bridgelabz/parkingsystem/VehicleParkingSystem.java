@@ -84,7 +84,7 @@ public class VehicleParkingSystem {
         return localDateTime;
     }
 
-    public List<VehicleDetails> getVehicleByAttribute(String... vehicleAttribute) throws ParkingSystemException {
+    public List<VehicleDetails> getVehicleByAttribute(ParkingSystemEnum.TypeOfAttribute... vehicleAttribute) throws ParkingSystemException {
         try {
             List<VehicleDetails> list;
             list = vehicleList.entrySet()
@@ -98,9 +98,9 @@ public class VehicleParkingSystem {
         }
     }
 
-    private boolean isValuePresent(Map.Entry<Integer, VehicleDetails> list, String... vehicleAttribute) {
-        for (String value1 : vehicleAttribute) {
-            if (list.toString().contains(value1.toLowerCase()) == false)
+    private boolean isValuePresent(Map.Entry<Integer, VehicleDetails> list, ParkingSystemEnum.TypeOfAttribute... vehicleAttribute) {
+        for (ParkingSystemEnum.TypeOfAttribute value1 : vehicleAttribute) {
+            if (list.toString().toUpperCase().contains(value1.toString()) == false)
                 return false;
         }
         return true;
@@ -142,5 +142,18 @@ public class VehicleParkingSystem {
 
     public Map<Integer, VehicleDetails> getVehicleDetails() {
         return vehicleList;
+    }
+
+    public void showList() {
+
+        System.out.println("Capacity :" + parkingSlotNumSystem.parkingCapacity + "  Lots :" + parkingSlotNumSystem.totalSlot + "\n");
+
+        for (int i = 0; i < parkingSlotNumSystem.obj.length; i++) {
+            parkingSlotNumSystem.list = (LinkedList) parkingSlotNumSystem.obj[i];
+
+            System.out.print("Slot No :" + (i + 1) + ":=>");
+            System.out.print(parkingSlotNumSystem.list);
+            System.out.println();
+        }
     }
 }

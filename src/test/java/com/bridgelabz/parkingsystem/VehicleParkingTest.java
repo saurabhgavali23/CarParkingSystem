@@ -112,7 +112,6 @@ public class VehicleParkingTest {
     // Parking Slot Has Space Again For Airport Security
     @Test
     public void whenUnParkTheCar_parkingLotHasSpaceAgain_ShouldKnowTheAirportSecurity() {
-
         try {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             parkingSystem.unParkTheVehicle(vehicle[0]);
@@ -125,7 +124,6 @@ public class VehicleParkingTest {
     // Park The Car By Position
     @Test
     public void givenParkingPosition_whenVehicleIsParked_ShouldReturnTrue() {
-
         try {
             parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             int vehicleKey = parkingSystem.getVehicleKey(this.vehicle[0]);
@@ -137,7 +135,6 @@ public class VehicleParkingTest {
     // Search The Car
     @Test
     public void givenVehicle_whenVehicleIsFound_ShouldReturnTrue() {
-
         try {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
@@ -150,7 +147,6 @@ public class VehicleParkingTest {
     // Parked Car By Time
     @Test
     public void givenVehicleAndParkedTime_whenVehicleIsParked_ShouldReturnTrue() {
-
         try {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             LocalDateTime timeAndDate = new VehicleParkingSystem().getTimeAndDate();
@@ -163,7 +159,6 @@ public class VehicleParkingTest {
     // Park The Car Evenly In Lot
     @Test
     public void givenVehicleList_whenVehicleParkedEvenly_ShouldReturnTrue() {
-
         try {
             parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             int vehicleKey = parkingSystem.getVehicleKey(this.vehicle[0]);
@@ -175,10 +170,9 @@ public class VehicleParkingTest {
         }
     }
 
-    // Park The Handicap Vehicle In Nearest Problem
+    // Park The Handicap Vehicle In Nearest Place
     @Test
     public void givenHandicapDriverVehicle_whenVehicleParkedNearestPlace_ShouldReturnTrue() {
-
         try {
             boolean vehicle = parkingSystem.parkTheVehicle(this.vehicle[0], ParkingSystemEnum.TypeOfDriver.HANDICAP_DRIVER);
             parkingSystem.parkTheVehicle(this.vehicle[1], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
@@ -210,9 +204,9 @@ public class VehicleParkingTest {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             vehicle[0].color = "White";
             parkingSystem.parkTheVehicle(vehicle[2], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
-            vehicle[2].color = "white";
-            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("white");
-            Assert.assertEquals("white", list.get(0).color);
+            vehicle[2].color = "White";
+            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute(ParkingSystemEnum.TypeOfAttribute.WHITE);
+            Assert.assertEquals("White", list.get(0).color);
         } catch (ParkingSystemException e) {
         }
     }
@@ -220,12 +214,11 @@ public class VehicleParkingTest {
     // Park The Vehicle With Wrong Color
     @Test
     public void givenVehicleWithOtherColor_whenIsNotFound_ShouldThrowException() {
-
         try {
             parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
-            vehicle[0].color = "white";
-            parkingSystem.getVehicleByAttribute("Red");
+            vehicle[0].color = "White";
+            parkingSystem.getVehicleByAttribute(ParkingSystemEnum.TypeOfAttribute.RED);
         } catch (ParkingSystemException e) {
             Assert.assertEquals(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND, e.type);
         }
@@ -241,7 +234,7 @@ public class VehicleParkingTest {
             vehicle[1].carModel = "toyota";
             vehicle[1].name = "John";
             vehicle[1].numPlate = "MH-12_AB-6251";
-            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("blue", "toyota");
+            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute(ParkingSystemEnum.TypeOfAttribute.BLUE, ParkingSystemEnum.TypeOfAttribute.TOYOTA);
             Assert.assertEquals("blue", list.get(0).color);
             Assert.assertEquals("toyota", list.get(0).carModel);
         } catch (ParkingSystemException e) {
@@ -251,7 +244,6 @@ public class VehicleParkingTest {
     // Park The Vehicle With blue Color, Num Plate, Name, Wrong Model
     @Test
     public void givenVehicleWithBlueColorAndOtherModelName_whenIsPark_ShouldThrowException() {
-        List<VehicleDetails> list = null;
         try {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
@@ -259,7 +251,7 @@ public class VehicleParkingTest {
             vehicle[1].carModel = "Toyota";
             vehicle[1].name = "John";
             vehicle[1].numPlate = "MH-12_AB-6251";
-            parkingSystem.getVehicleByAttribute("Blue", "Suzuki");
+            parkingSystem.getVehicleByAttribute(ParkingSystemEnum.TypeOfAttribute.BLUE, ParkingSystemEnum.TypeOfAttribute.SUZUKI);
         } catch (ParkingSystemException e) {
             Assert.assertEquals(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND, e.type);
         }
@@ -270,12 +262,12 @@ public class VehicleParkingTest {
     public void givenVehicleWithModelNameBMW_whenIsPark_ShouldReturnTrue() {
         try {
             parkingSystem.parkTheVehicle(vehicle[0], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
-            vehicle[0].carModel = "bmw";
+            vehicle[0].carModel = "BMW";
             parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
-            vehicle[1].carModel = "bmw";
-            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute("bmw");
-            Assert.assertEquals("bmw", list.get(0).carModel);
-            Assert.assertEquals("bmw", list.get(1).carModel);
+            vehicle[1].carModel = "BMW";
+            List<VehicleDetails> list = parkingSystem.getVehicleByAttribute(ParkingSystemEnum.TypeOfAttribute.BMW);
+            Assert.assertEquals("BMW", list.get(0).carModel);
+            Assert.assertEquals("BMW", list.get(1).carModel);
         } catch (ParkingSystemException e) {
         }
     }
@@ -288,7 +280,7 @@ public class VehicleParkingTest {
             vehicle[0].carModel = "BMW";
             parkingSystem.parkTheVehicle(vehicle[1], ParkingSystemEnum.TypeOfDriver.NORMAL_DRIVER);
             vehicle[1].carModel = "BMW";
-            parkingSystem.getVehicleByAttribute("SUV");
+            parkingSystem.getVehicleByAttribute(ParkingSystemEnum.TypeOfAttribute.SUV);
         } catch (ParkingSystemException e) {
             Assert.assertEquals(ParkingSystemException.ExceptionType.ATRRIBUETE_TYPE_OF_VEHICLE_NOT_FOUND, e.type);
         }

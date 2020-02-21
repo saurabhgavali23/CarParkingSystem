@@ -25,4 +25,8 @@ public class ParkingSystemEnum {
 
         public abstract int getSlotNum(ParkingSlotNumberSystem parkingSlotNumSystem);
     }
+
+    public enum TypeOfAttribute {
+        BLUE, BMW, TOYOTA, WHITE, SUZUKI, SUV, RED,
+    }
 }
